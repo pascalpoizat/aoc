@@ -5,7 +5,7 @@ package aoc2022;
 
 import java.util.Map;
 
-import aoc2022.days.Day1;
+import aoc2022.days.*;
 import aoc2022.helpers.Day;
 import aoc2022.helpers.Pair;
 
@@ -16,7 +16,9 @@ public class App {
 
     private static final Map<String, Pair<String, Day>> days = Map.of(
             "1a", new Pair<>("/input1.txt", Day1.day1a),
-            "1b", new Pair<>("/input1.txt", Day1.day1b));
+            "1b", new Pair<>("/input1.txt", Day1.day1b),
+            "2a", new Pair<>("/input2.txt", Day2.day2a),
+            "2b", new Pair<>("/input2.txt", Day2.day2b));
 
     /**
      * Run a day quiz. Run with `./gradlew run --args="<day>"`

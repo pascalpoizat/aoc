@@ -5,6 +5,8 @@ package aoc2022;
 
 import org.junit.Test;
 
+import aoc2022.days.Day1;
+import aoc2022.days.Day2;
 import aoc2022.helpers.Day;
 
 import static org.junit.Assert.*;
@@ -23,5 +25,37 @@ public class AppTest {
     @Test
     public void fileNotFound() {
         assertEquals(Optional.empty(), dummyDay.apply("This-file-does-not-exist"));
+    }
+
+    @Test
+    public void scoreRockPaperScissors() {
+        String plays[][] = { { "A", "Y" }, { "B", "X" }, { "C", "Z" } };
+        int score = 0;
+        for (int play = 0; play < plays.length; play++) {
+            Day2.Play adversary = Day2.playFromString(plays[play][0]).get();
+            Day2.Play me = Day2.playFromString(plays[play][1]).get();
+            score += Day2.score(adversary, me);
+        }
+        assertEquals(15, score);
+    }
+
+    @Test
+    public void day1a() {
+        assertEquals("69501", Day1.day1a.apply("/input1.txt").orElse("0"));
+    }
+
+    @Test
+    public void day1b() {
+        assertEquals("202346", Day1.day1b.apply("/input1.txt").orElse("0"));
+    }
+
+    @Test
+    public void day2a() {
+        assertEquals("9651", Day2.day2a.apply("/input2.txt").orElse("0"));
+    }
+
+    @Test
+    public void day2b() {
+        assertEquals("10560", Day2.day2b.apply("/input2.txt").orElse("0"));
     }
 }
