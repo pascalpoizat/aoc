@@ -33,7 +33,6 @@ public class App {
             System.out.println(dayValues._2().apply(dayValues._1()).orElse(NO_FILE));
         } else {
             System.out.println(MISSING_ARGUMENT);
-            return;
         }
     }
 }
