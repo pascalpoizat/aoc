@@ -1,6 +1,5 @@
 package aoc2022.days;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -89,7 +88,7 @@ public class Day2 {
     }
 
     public static final int score(Pair<Play, Play> play) {
-        return score(play._1(), play._2());
+        return score(play.fst(), play.snd());
     }
 
     public static final <T, U> Optional<Pair<T, U>> split(Function<String, Optional<T>> f1,
@@ -111,7 +110,7 @@ public class Day2 {
     public static final Function<String, Optional<Pair<Play, Play>>> split2 = l -> split(readPlay,
             readResult, l).map(p -> p.map2(Day2::choose));
 
-    public static final Day day2a = (List<String> ls) -> {
+    public static final Day day2a = ls -> {
         int score = ls.stream()
                 .map(split1)
                 .map(o -> o.map(Day2::score))
@@ -120,7 +119,7 @@ public class Day2 {
         return String.format("%d", score);
     };
 
-    public static final Day day2b = (List<String> ls) -> {
+    public static final Day day2b = ls -> {
         int score = ls.stream()
                 .map(split2)
                 .map(o -> o.map(Day2::score))
