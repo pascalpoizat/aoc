@@ -22,9 +22,10 @@ public class Day1 {
                 int val = 0;
                 try {
                     val = Integer.parseInt(e);
+                    current += val;
                 } catch (Exception x) {
+                    // nothing to do, skip the bad number
                 }
-                current += val;
             }
         }
         es.sort(Comparator.reverseOrder());
