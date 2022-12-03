@@ -32,8 +32,8 @@ public class AppTest {
         String plays[][] = { { "A", "Y" }, { "B", "X" }, { "C", "Z" } };
         int score = 0;
         for (int play = 0; play < plays.length; play++) {
-            Day2.Play adversary = Day2.playFromString(plays[play][0]).get();
-            Day2.Play me = Day2.playFromString(plays[play][1]).get();
+            Day2.Play adversary = Day2.readPlay.apply(plays[play][0]).get();
+            Day2.Play me = Day2.readPlay.apply(plays[play][1]).get();
             score += Day2.score(adversary, me);
         }
         assertEquals(15, score);
