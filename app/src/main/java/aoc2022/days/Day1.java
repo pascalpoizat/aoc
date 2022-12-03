@@ -8,12 +8,15 @@ import aoc2022.helpers.Day;
 
 public class Day1 {
 
-    private static final List<Integer> day1Helper(List<String> ls) {
-        List<Integer> elves = new ArrayList<>();
+    private Day1() {
+    }
+
+    private static final List<Integer> day1(List<String> ls) {
+        List<Integer> es = new ArrayList<>();
         int current = 0;
         for (String e : ls) {
             if (e.trim().length() == 0) { // empty line
-                elves.add(current);
+                es.add(current);
                 current = 0;
             } else { // calories
                 int val = 0;
@@ -24,16 +27,13 @@ public class Day1 {
                 current += val;
             }
         }
-        elves.sort(Comparator.reverseOrder());
-        return elves;
+        es.sort(Comparator.reverseOrder());
+        return es;
     }
 
-    public static final Day day1a = ls -> {
-        return String.format("%d", day1Helper(ls).get(0));
-    };
+    public static final Day day1a = ls -> String.format("%d", day1(ls).get(0));
 
-    public static final Day day1b = ls -> {
-        return String.format("%d", day1Helper(ls).stream().limit(3).reduce(0, (x, y) -> x + y));
-    };
+    public static final Day day1b = ls -> String.format("%d",
+            day1(ls).stream().limit(3).reduce(0, (x, y) -> x + y));
 
 }
