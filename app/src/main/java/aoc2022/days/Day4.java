@@ -7,6 +7,7 @@ import static aoc2022.helpers.Readers.integer;
 import static aoc2022.helpers.Readers.split;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Day4 {
@@ -23,8 +24,22 @@ public class Day4 {
             this.end = end;
         }
 
+        //  X-----------X
+        //     X---X
         public boolean covers(Range other) {
             return this.start <= other.start && this.end >= other.end;
+        }
+
+        //  X-----------X
+        //      X----------X
+        public boolean overlaps(Range other) {
+            return (this.start <= other.start && this.end >= other.start)
+                        || (other.start <= this.start && other.end >= this.start);
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%d - %d", start, end);
         }
     }
 
@@ -35,15 +50,18 @@ public class Day4 {
 
     public static final Predicate<Pair<Range,Range>> aCoversB = p -> p.fst().covers(p.snd());
     public static final Predicate<Pair<Range,Range>> bCoversA = p -> p.snd().covers(p.fst());
+    public static final Predicate<Pair<Range,Range>> overlaps = p -> p.fst().overlaps(p.snd());
 
-    public static final Day day4a = ls -> {
+    public static final Function<Predicate<Pair<Range,Range>>,Day> day = p -> ls -> {
         final long count = ls.stream()
                 .map(reader)
                 .flatMap(Optional::stream)
-                .filter(aCoversB.or(bCoversA))
+                .filter(p)
                 .count();
         return String.format("%d", count);
     };
 
-    public static final Day day4b = ls -> "TODO:";
+    public static final Day day4a = day.apply(aCoversB.or(bCoversA));
+    public static final Day day4b = day.apply(overlaps);
+
 }
