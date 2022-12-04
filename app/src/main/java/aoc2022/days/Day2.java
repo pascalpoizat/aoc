@@ -5,9 +5,12 @@ import java.util.Optional;
 import aoc2022.helpers.Day;
 import aoc2022.helpers.Pair;
 import aoc2022.helpers.Reader;
-import aoc2022.helpers.Readers;
+import static aoc2022.helpers.Readers.split;
 
 public class Day2 {
+
+    private Day2() {
+    }
 
     public enum Play {
         ROCK, PAPER, SCISSORS;
@@ -92,11 +95,11 @@ public class Day2 {
         return score(play.fst(), play.snd());
     }
 
-    public static final Reader<Pair<Play, Play>> split1 = l -> Readers.split(" ", readPlay,
-            readPlay, Pair::new, l);
+    public static final Reader<Pair<Play, Play>> split1 = split(" ", readPlay,
+            readPlay, Pair::new);
 
-    public static final Reader<Pair<Play, Play>> split2 = l -> Readers.split(" ", readPlay,
-            readResult, Pair::new, l).map(p -> p.map2(Day2::choose));
+    public static final Reader<Pair<Play, Play>> split2 = l -> split(" ", readPlay,
+            readResult, Pair::new).apply(l).map(p -> p.map2(Day2::choose));
 
     public static final Day day2a = ls -> {
         int score = ls.stream()

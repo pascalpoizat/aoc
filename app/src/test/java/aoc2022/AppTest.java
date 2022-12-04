@@ -5,9 +5,7 @@ package aoc2022;
 
 import org.junit.Test;
 
-import aoc2022.days.Day1;
-import aoc2022.days.Day2;
-import aoc2022.days.Day3;
+import aoc2022.days.*;
 import aoc2022.helpers.Day;
 
 import static org.junit.Assert.*;
@@ -126,5 +124,10 @@ public class AppTest {
     @Test
     public void day3b() {
         assertEquals("2683", Day3.day3b.apply("/input3.txt").orElse("0"));
+    }
+
+    @Test
+    public void day4a() {
+        assertEquals("528", Day4.day4a.apply("/input4.txt").orElse("0"));
     }
 }

@@ -20,7 +20,9 @@ public class App {
             "2a", new Pair<>("/input2.txt", Day2.day2a),
             "2b", new Pair<>("/input2.txt", Day2.day2b),
             "3a", new Pair<>("/input3.txt", Day3.day3a),
-            "3b", new Pair<>("/input3.txt", Day3.day3b)
+            "3b", new Pair<>("/input3.txt", Day3.day3b),
+            "4a", new Pair<>("/input4.txt", Day4.day4a),
+            "4b", new Pair<>("/input4.txt", Day4.day4b)
             );
 
     /**
