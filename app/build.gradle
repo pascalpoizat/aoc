@@ -30,5 +30,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'aoc2022.App'
+    mainClass = 'App'
 }

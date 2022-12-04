@@ -3,6 +3,7 @@
  */
 package aoc2022;
 
+import java.util.List;
 import java.util.Map;
 
 import aoc2022.days.*;
@@ -15,24 +16,19 @@ public class App {
     public static final String NO_FILE = "Could not load file";
 
     private static final Map<String, Pair<String, Day>> days = Map.of(
-            "1a", new Pair<>("/input1.txt", Day1.day1a),
-            "1b", new Pair<>("/input1.txt", Day1.day1b),
-            "2a", new Pair<>("/input2.txt", Day2.day2a),
-            "2b", new Pair<>("/input2.txt", Day2.day2b),
-            "3a", new Pair<>("/input3.txt", Day3.day3a),
-            "3b", new Pair<>("/input3.txt", Day3.day3b),
-            "4a", new Pair<>("/input4.txt", Day4.day4a),
-            "4b", new Pair<>("/input4.txt", Day4.day4b)
+            "1a", new Pair<>("/aoc2022/input1.txt", Day1.day1a),
+            "1b", new Pair<>("/aoc2022/input1.txt", Day1.day1b),
+            "2a", new Pair<>("/aoc2022/input2.txt", Day2.day2a),
+            "2b", new Pair<>("/aoc2022/input2.txt", Day2.day2b),
+            "3a", new Pair<>("/aoc2022/input3.txt", Day3.day3a),
+            "3b", new Pair<>("/aoc2022/input3.txt", Day3.day3b),
+            "4a", new Pair<>("/aoc2022/input4.txt", Day4.day4a),
+            "4b", new Pair<>("/aoc2022/input4.txt", Day4.day4b)
             );
 
-    /**
-     * Run a day quiz. Run with `./gradlew run --args="<day>"`
-     * 
-     * @param args
-     */
-    public static void main(String[] args) {
-        if (args.length >= 1) {
-            String day = args[0];
+    public static void main(List<String> args) {
+        if (!args.isEmpty()) {
+            String day = args.get(0);
             System.out.println("Running AoC 2022 for " + day);
             Pair<String, Day> dayValues = days.get(day);
             System.out.println(dayValues.snd().apply(dayValues.fst()).orElse(NO_FILE));

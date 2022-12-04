@@ -98,36 +98,36 @@ public class AppTest {
 
     @Test
     public void day1a() {
-        assertEquals("69501", Day1.day1a.apply("/input1.txt").orElse("0"));
+        assertEquals("69501", Day1.day1a.apply("/aoc2022/input1.txt").orElse("0"));
     }
 
     @Test
     public void day1b() {
-        assertEquals("202346", Day1.day1b.apply("/input1.txt").orElse("0"));
+        assertEquals("202346", Day1.day1b.apply("/aoc2022/input1.txt").orElse("0"));
     }
 
     @Test
     public void day2a() {
-        assertEquals("9651", Day2.day2a.apply("/input2.txt").orElse("0"));
+        assertEquals("9651", Day2.day2a.apply("/aoc2022/input2.txt").orElse("0"));
     }
 
     @Test
     public void day2b() {
-        assertEquals("10560", Day2.day2b.apply("/input2.txt").orElse("0"));
+        assertEquals("10560", Day2.day2b.apply("/aoc2022/input2.txt").orElse("0"));
     }
 
     @Test
     public void day3a() {
-        assertEquals("7831", Day3.day3a.apply("/input3.txt").orElse("0"));
+        assertEquals("7831", Day3.day3a.apply("/aoc2022/input3.txt").orElse("0"));
     }
 
     @Test
     public void day3b() {
-        assertEquals("2683", Day3.day3b.apply("/input3.txt").orElse("0"));
+        assertEquals("2683", Day3.day3b.apply("/aoc2022/input3.txt").orElse("0"));
     }
 
     @Test
     public void day4a() {
-        assertEquals("528", Day4.day4a.apply("/input4.txt").orElse("0"));
+        assertEquals("528", Day4.day4a.apply("/aoc2022/input4.txt").orElse("0"));
     }
 }
