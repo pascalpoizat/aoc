@@ -19,7 +19,9 @@ public class App {
             "1b", new Pair<>("/input1.txt", Day1.day1b),
             "2a", new Pair<>("/input2.txt", Day2.day2a),
             "2b", new Pair<>("/input2.txt", Day2.day2b),
-            "3a", new Pair<>("/input3.txt", Day3.day3a));
+            "3a", new Pair<>("/input3.txt", Day3.day3a),
+            "3b", new Pair<>("/input3.txt", Day3.day3b)
+            );
 
     /**
      * Run a day quiz. Run with `./gradlew run --args="<day>"`

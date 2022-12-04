@@ -12,7 +12,9 @@ import aoc2022.helpers.Day;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 public class AppTest {
 
@@ -57,6 +59,46 @@ public class AppTest {
     }
 
     @Test
+    public void regroup1() {
+        List<String> seqs = List.of();
+        List<List<String>> res = Day3.regroup(seqs, 3);
+        assertEquals(0, res.size());
+    }
+
+    @Test
+    public void regroup2() {
+        List<String> seqs = List.of("a", "b");
+        List<List<String>> res = Day3.regroup(seqs, 3);
+        assertEquals(1, res.size());
+        assertEquals(2, res.get(0).size());
+        assertEquals(List.of("a", "b"), res.get(0));
+    }
+
+    @Test
+    public void regroup3() {
+        List<String> seqs = List.of("a", "b", "c", "d", "e", "f", "g");
+        List<List<String>> res = Day3.regroup(seqs, 3);
+        assertEquals(3, res.size());
+        assertEquals(3, res.get(0).size());
+        assertEquals(3, res.get(1).size());
+        assertEquals(1, res.get(2).size());
+        assertEquals(List.of("a", "b", "c"), res.get(0));
+        assertEquals(List.of("d", "e", "f"), res.get(1));
+        assertEquals(List.of("g"), res.get(2));
+    }
+
+    @Test
+    public void findDuplicate1() {
+        List<List<String>> in = List.of(List.of("vJrwpWtwJgWrhcsFMMfFFhFp","jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL","PmmdzqPrVvPwwTWBwg"), List.of("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn","ttgJtRGJQctTZtZT","CrZsJsPPZsGzwwsLwLmpwMDw"));
+        OptionalInt res1 = Day3.findDuplicate(in.get(0));
+        OptionalInt res2 = Day3.findDuplicate(in.get(1));
+        assertTrue(res1.isPresent());
+        assertTrue(res2.isPresent());
+        assertEquals('r', res1.getAsInt());
+        assertEquals('Z', res2.getAsInt());
+    }
+
+    @Test
     public void day1a() {
         assertEquals("69501", Day1.day1a.apply("/input1.txt").orElse("0"));
     }
@@ -74,5 +116,15 @@ public class AppTest {
     @Test
     public void day2b() {
         assertEquals("10560", Day2.day2b.apply("/input2.txt").orElse("0"));
+    }
+
+    @Test
+    public void day3a() {
+        assertEquals("7831", Day3.day3a.apply("/input3.txt").orElse("0"));
+    }
+
+    @Test
+    public void day3b() {
+        assertEquals("2683", Day3.day3b.apply("/input3.txt").orElse("0"));
     }
 }
