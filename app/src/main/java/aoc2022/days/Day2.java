@@ -1,10 +1,11 @@
 package aoc2022.days;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 import aoc2022.helpers.Day;
 import aoc2022.helpers.Pair;
+import aoc2022.helpers.Reader;
+import aoc2022.helpers.Readers;
 
 public class Day2 {
 
@@ -49,14 +50,14 @@ public class Day2 {
         };
     }
 
-    public static final Function<String, Optional<Play>> readPlay = play -> switch (play.strip()) {
+    public static final Reader<Play> readPlay = play -> switch (play.strip()) {
         case "A", "X" -> Optional.of(Play.ROCK);
         case "B", "Y" -> Optional.of(Play.PAPER);
         case "C", "Z" -> Optional.of(Play.SCISSORS);
         default -> Optional.empty();
     };
 
-    public static final Function<String, Optional<Result>> readResult = result -> switch (result.strip()) {
+    public static final Reader<Result> readResult = result -> switch (result.strip()) {
         case "X" -> Optional.of(Result.LOST);
         case "Y" -> Optional.of(Result.TIE);
         case "Z" -> Optional.of(Result.WON);
@@ -91,24 +92,11 @@ public class Day2 {
         return score(play.fst(), play.snd());
     }
 
-    public static final <T, U> Optional<Pair<T, U>> split(Function<String, Optional<T>> f1,
-            Function<String, Optional<U>> f2, String line) {
-        String[] parts = line.split(" ");
-        if (parts.length == 2) {
-            Optional<T> t = f1.apply(parts[0]);
-            Optional<U> u = f2.apply(parts[1]);
-            if (t.isPresent() && u.isPresent()) {
-                return Optional.ofNullable(new Pair<>(t.get(), u.get()));
-            }
-        }
-        return Optional.empty();
-    }
+    public static final Reader<Pair<Play, Play>> split1 = l -> Readers.split(" ", readPlay,
+            readPlay, Pair::new, l);
 
-    public static final Function<String, Optional<Pair<Play, Play>>> split1 = l -> split(readPlay,
-            readPlay, l);
-
-    public static final Function<String, Optional<Pair<Play, Play>>> split2 = l -> split(readPlay,
-            readResult, l).map(p -> p.map2(Day2::choose));
+    public static final Reader<Pair<Play, Play>> split2 = l -> Readers.split(" ", readPlay,
+            readResult, Pair::new, l).map(p -> p.map2(Day2::choose));
 
     public static final Day day2a = ls -> {
         int score = ls.stream()

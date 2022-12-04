@@ -3,9 +3,7 @@ package aoc2022.days;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import aoc2022.helpers.Day;
 import aoc2022.helpers.Pair;
