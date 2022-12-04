@@ -18,7 +18,8 @@ public class App {
             "1a", new Pair<>("/input1.txt", Day1.day1a),
             "1b", new Pair<>("/input1.txt", Day1.day1b),
             "2a", new Pair<>("/input2.txt", Day2.day2a),
-            "2b", new Pair<>("/input2.txt", Day2.day2b));
+            "2b", new Pair<>("/input2.txt", Day2.day2b),
+            "3a", new Pair<>("/input3.txt", Day3.day3a));
 
     /**
      * Run a day quiz. Run with `./gradlew run --args="<day>"`
@@ -30,7 +31,7 @@ public class App {
             String day = args[0];
             System.out.println("Running AoC 2022 for " + day);
             Pair<String, Day> dayValues = days.get(day);
-            System.out.println(dayValues._2().apply(dayValues._1()).orElse(NO_FILE));
+            System.out.println(dayValues.snd().apply(dayValues.fst()).orElse(NO_FILE));
         } else {
             System.out.println(MISSING_ARGUMENT);
         }

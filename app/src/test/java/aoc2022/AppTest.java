@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import aoc2022.days.Day1;
 import aoc2022.days.Day2;
+import aoc2022.days.Day3;
 import aoc2022.helpers.Day;
 
 import static org.junit.Assert.*;
@@ -37,6 +38,22 @@ public class AppTest {
             score += Day2.score(adversary, me);
         }
         assertEquals(15, score);
+    }
+
+    @Test
+    public void priorites() {
+        // from AoC example
+        assertEquals(16, Day3.priority('p'));
+        assertEquals(38, Day3.priority('L'));
+        assertEquals(42, Day3.priority('P'));
+        assertEquals(22, Day3.priority('v'));
+        assertEquals(20, Day3.priority('t'));
+        assertEquals(19, Day3.priority('s'));
+        // boundaries
+        assertEquals(1, Day3.priority('a'));
+        assertEquals(26, Day3.priority('z'));
+        assertEquals(27, Day3.priority('A'));
+        assertEquals(52, Day3.priority('Z'));
     }
 
     @Test
