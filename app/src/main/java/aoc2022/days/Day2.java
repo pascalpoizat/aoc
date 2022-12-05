@@ -104,8 +104,8 @@ public class Day2 {
     public static final Day day2a = ls -> {
         int score = ls.stream()
                 .map(split1)
-                .map(o -> o.map(Day2::score))
                 .flatMap(Optional::stream)
+                .map(Day2::score)
                 .reduce(0, (x, y) -> x + y);
         return String.format("%d", score);
     };
@@ -113,8 +113,8 @@ public class Day2 {
     public static final Day day2b = ls -> {
         int score = ls.stream()
                 .map(split2)
-                .map(o -> o.map(Day2::score))
                 .flatMap(Optional::stream)
+                .map(Day2::score)
                 .reduce(0, (x, y) -> x + y);
         return String.format("%d", score);
     };
