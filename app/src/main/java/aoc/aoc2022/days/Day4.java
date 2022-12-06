@@ -1,14 +1,15 @@
-package aoc2022.days;
+package aoc.aoc2022.days;
 
-import aoc2022.helpers.Day;
-import aoc2022.helpers.Pair;
-import aoc2022.helpers.LineReader;
-import static aoc2022.helpers.Readers.integer;
-import static aoc2022.helpers.Readers.split;
+import static aoc.helpers.Readers.integer;
+import static aoc.helpers.Readers.split;
 
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import aoc.helpers.Day;
+import aoc.helpers.LineReader;
+import aoc.helpers.Pair;
 
 public class Day4 {
 

@@ -27,7 +27,7 @@ dependencies {
 
 application {
     // Main class
-    mainClass = 'App'
+    mainClass = 'aoc.App'
 }
 
 test {

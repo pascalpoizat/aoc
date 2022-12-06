@@ -1,4 +1,4 @@
-package aoc2022.helpers;
+package aoc.helpers;
 
 import java.util.List;
 import java.util.Optional;

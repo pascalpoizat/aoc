@@ -1,16 +1,16 @@
-package aoc2022.days;
+package aoc.aoc2022.days;
 
-import aoc2022.helpers.Day;
-import aoc2022.helpers.ListCreator;
-import aoc2022.helpers.LineReader;
-
-import static aoc2022.helpers.Readers.integer;
-import static aoc2022.helpers.Readers.regex;
+import static aoc.helpers.Readers.integer;
+import static aoc.helpers.Readers.regex;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
+
+import aoc.helpers.Day;
+import aoc.helpers.LineReader;
+import aoc.helpers.ListCreator;
 
 public class Day5 {
 

@@ -1,14 +1,14 @@
-package aoc2022;
+package aoc.aoc2022;
 
 import org.junit.Test;
 
-import aoc2022.days.*;
-import aoc2022.days.Day5.Move;
-import aoc2022.days.Day5.MoveCreator;
-import aoc2022.helpers.Day;
-import aoc2022.helpers.Pair;
-import static aoc2022.helpers.Readers.*;
+import aoc.aoc2022.days.*;
+import aoc.aoc2022.days.Day5.Move;
+import aoc.aoc2022.days.Day5.MoveCreator;
+import aoc.helpers.Day;
+import aoc.helpers.Pair;
 
+import static aoc.helpers.Readers.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
@@ -36,10 +36,10 @@ public class AppTest {
         List<String> ls = List.of();
         Predicate<String> p = s -> s.strip().equals("");
         // not present - mandatory : empty
-        Optional<Pair<List<String>,List<String>>> res1 = splitUntil(p, true, false).apply(ls);
+        Optional<Pair<List<String>, List<String>>> res1 = splitUntil(p, true, false).apply(ls);
         assertTrue(res1.isEmpty());
         // not present - not mandatory : ([], [])
-        Optional<Pair<List<String>,List<String>>> res2 = splitUntil(p, false, false).apply(ls);
+        Optional<Pair<List<String>, List<String>>> res2 = splitUntil(p, false, false).apply(ls);
         assertTrue(res2.isPresent());
         assertEquals(res2.get().fst(), List.of());
         assertEquals(res2.get().snd(), List.of());
@@ -47,44 +47,44 @@ public class AppTest {
 
     @Test
     public void untilNotEmptyList() {
-        List<String> ls = List.of("aaa","bbb","ccc");
+        List<String> ls = List.of("aaa", "bbb", "ccc");
         Predicate<String> pa = s -> s.strip().equals("aaa");
         Predicate<String> pb = s -> s.strip().equals("bbb");
         Predicate<String> pc = s -> s.strip().equals("ccc");
         Predicate<String> pd = s -> s.strip().equals("ddd");
         // not present - mandatory : empty
-        Optional<Pair<List<String>,List<String>>> resd1 = splitUntil(pd, true, false).apply(ls);
+        Optional<Pair<List<String>, List<String>>> resd1 = splitUntil(pd, true, false).apply(ls);
         assertTrue(resd1.isEmpty());
         // not present - not mandatory : (whole list, [])
-        Optional<Pair<List<String>,List<String>>> resd2 = splitUntil(pd, false, false).apply(ls);
+        Optional<Pair<List<String>, List<String>>> resd2 = splitUntil(pd, false, false).apply(ls);
         assertTrue(resd2.isPresent());
-        assertEquals(resd2.get().fst(), List.of("aaa","bbb","ccc"));
+        assertEquals(resd2.get().fst(), List.of("aaa", "bbb", "ccc"));
         assertEquals(resd2.get().snd(), List.of());
         // present - mandatory - do not keep : (before without, after)
-        Optional<Pair<List<String>,List<String>>> resa1 = splitUntil(pa, true, false).apply(ls);
-        Optional<Pair<List<String>,List<String>>> resb1 = splitUntil(pb, true, false).apply(ls);
-        Optional<Pair<List<String>,List<String>>> resc1 = splitUntil(pc, true, false).apply(ls);
+        Optional<Pair<List<String>, List<String>>> resa1 = splitUntil(pa, true, false).apply(ls);
+        Optional<Pair<List<String>, List<String>>> resb1 = splitUntil(pb, true, false).apply(ls);
+        Optional<Pair<List<String>, List<String>>> resc1 = splitUntil(pc, true, false).apply(ls);
         assertTrue(resa1.isPresent());
         assertEquals(resa1.get().fst(), List.of());
-        assertEquals(resa1.get().snd(), List.of("bbb","ccc"));
+        assertEquals(resa1.get().snd(), List.of("bbb", "ccc"));
         assertTrue(resb1.isPresent());
         assertEquals(resb1.get().fst(), List.of("aaa"));
         assertEquals(resb1.get().snd(), List.of("ccc"));
         assertTrue(resc1.isPresent());
-        assertEquals(resc1.get().fst(), List.of("aaa","bbb"));
+        assertEquals(resc1.get().fst(), List.of("aaa", "bbb"));
         assertEquals(resc1.get().snd(), List.of());
         // present - mandatory -- keep
-        Optional<Pair<List<String>,List<String>>> resa2 = splitUntil(pa, true, true).apply(ls);
-        Optional<Pair<List<String>,List<String>>> resb2 = splitUntil(pb, true, true).apply(ls);
-        Optional<Pair<List<String>,List<String>>> resc2 = splitUntil(pc, true, true).apply(ls);
+        Optional<Pair<List<String>, List<String>>> resa2 = splitUntil(pa, true, true).apply(ls);
+        Optional<Pair<List<String>, List<String>>> resb2 = splitUntil(pb, true, true).apply(ls);
+        Optional<Pair<List<String>, List<String>>> resc2 = splitUntil(pc, true, true).apply(ls);
         assertTrue(resa2.isPresent());
         assertEquals(resa2.get().fst(), List.of("aaa"));
-        assertEquals(resa2.get().snd(), List.of("bbb","ccc"));
+        assertEquals(resa2.get().snd(), List.of("bbb", "ccc"));
         assertTrue(resb2.isPresent());
-        assertEquals(resb2.get().fst(), List.of("aaa","bbb"));
+        assertEquals(resb2.get().fst(), List.of("aaa", "bbb"));
         assertEquals(resb2.get().snd(), List.of("ccc"));
         assertTrue(resc2.isPresent());
-        assertEquals(resc2.get().fst(), List.of("aaa","bbb","ccc"));
+        assertEquals(resc2.get().fst(), List.of("aaa", "bbb", "ccc"));
         assertEquals(resc2.get().snd(), List.of());
     }
 
@@ -216,9 +216,9 @@ public class AppTest {
         Optional<Move> m = regex("move (\\d+) from (\\d+) to (\\d+)", MoveCreator.instance())
                 .apply("move 1 from 2 to 3");
         assertTrue(m.isPresent());
-        assertEquals(m.get().qty(), 1);
-        assertEquals(m.get().from(), 2);
-        assertEquals(m.get().to(), 3);
+        assertEquals(1, m.get().qty());
+        assertEquals(2, m.get().from());
+        assertEquals(3, m.get().to());
     }
 
     @Test
@@ -254,5 +254,10 @@ public class AppTest {
     @Test
     public void day4a() {
         assertEquals("528", Day4.day4a.apply("/aoc2022/input4.txt").orElse("0"));
+    }
+
+    @Test
+    public void day4b() {
+        assertEquals("881", Day4.day4b.apply("/aoc2022/input4.txt").orElse("0"));
     }
 }

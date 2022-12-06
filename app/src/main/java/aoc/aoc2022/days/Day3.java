@@ -1,12 +1,12 @@
-package aoc2022.days;
+package aoc.aoc2022.days;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
-import aoc2022.helpers.Day;
-import aoc2022.helpers.Pair;
+import aoc.helpers.Day;
+import aoc.helpers.Pair;
 
 public class Day3 {
 

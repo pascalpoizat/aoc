@@ -1,4 +1,4 @@
-package aoc2022.helpers;
+package aoc.helpers;
 
 import java.net.URI;
 import java.nio.file.Files;
@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import aoc2022.App;
+import aoc.aoc2022.App;
 
 public interface Day extends Function<String, Optional<String>> {
     String computation(List<String> lines);

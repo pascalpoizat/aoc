@@ -1,10 +1,10 @@
-package aoc2022.days;
+package aoc.aoc2022.days;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import aoc2022.helpers.Day;
+import aoc.helpers.Day;
 
 public class Day1 {
 
