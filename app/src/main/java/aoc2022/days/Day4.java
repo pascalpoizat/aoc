@@ -2,7 +2,7 @@ package aoc2022.days;
 
 import aoc2022.helpers.Day;
 import aoc2022.helpers.Pair;
-import aoc2022.helpers.Reader;
+import aoc2022.helpers.LineReader;
 import static aoc2022.helpers.Readers.integer;
 import static aoc2022.helpers.Readers.split;
 
@@ -43,10 +43,10 @@ public class Day4 {
         }
     }
 
-    public static final Reader<Range> rangeReader = split("-", integer,
+    public static final LineReader<Range> rangeReader = split("-", integer,
             integer, Day4.Range::new);
 
-    public static final Reader<Pair<Range, Range>> reader = split(",", rangeReader, rangeReader, Pair::new);
+    public static final LineReader<Pair<Range, Range>> reader = split(",", rangeReader, rangeReader, Pair::new);
 
     public static final Predicate<Pair<Range,Range>> aCoversB = p -> p.fst().covers(p.snd());
     public static final Predicate<Pair<Range,Range>> bCoversA = p -> p.snd().covers(p.fst());

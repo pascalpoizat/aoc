@@ -23,7 +23,9 @@ public class App {
             "3a", new Pair<>("/aoc2022/input3.txt", Day3.day3a),
             "3b", new Pair<>("/aoc2022/input3.txt", Day3.day3b),
             "4a", new Pair<>("/aoc2022/input4.txt", Day4.day4a),
-            "4b", new Pair<>("/aoc2022/input4.txt", Day4.day4b)
+            "4b", new Pair<>("/aoc2022/input4.txt", Day4.day4b),
+            "5a", new Pair<>("/aoc2022/input5.txt", Day5.day5a),
+            "5b", new Pair<>("/aoc2022/input5.txt", Day5.day5b)
             );
 
     public static void main(List<String> args) {

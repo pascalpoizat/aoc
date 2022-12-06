@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import aoc2022.helpers.Day;
 import aoc2022.helpers.Pair;
-import aoc2022.helpers.Reader;
+import aoc2022.helpers.LineReader;
 import static aoc2022.helpers.Readers.split;
 
 public class Day2 {
@@ -53,14 +53,14 @@ public class Day2 {
         };
     }
 
-    public static final Reader<Play> readPlay = play -> switch (play.strip()) {
+    public static final LineReader<Play> readPlay = play -> switch (play.strip()) {
         case "A", "X" -> Optional.of(Play.ROCK);
         case "B", "Y" -> Optional.of(Play.PAPER);
         case "C", "Z" -> Optional.of(Play.SCISSORS);
         default -> Optional.empty();
     };
 
-    public static final Reader<Result> readResult = result -> switch (result.strip()) {
+    public static final LineReader<Result> readResult = result -> switch (result.strip()) {
         case "X" -> Optional.of(Result.LOST);
         case "Y" -> Optional.of(Result.TIE);
         case "Z" -> Optional.of(Result.WON);
@@ -95,10 +95,10 @@ public class Day2 {
         return score(play.fst(), play.snd());
     }
 
-    public static final Reader<Pair<Play, Play>> split1 = split(" ", readPlay,
+    public static final LineReader<Pair<Play, Play>> split1 = split(" ", readPlay,
             readPlay, Pair::new);
 
-    public static final Reader<Pair<Play, Play>> split2 = l -> split(" ", readPlay,
+    public static final LineReader<Pair<Play, Play>> split2 = l -> split(" ", readPlay,
             readResult, Pair::new).apply(l).map(p -> p.map2(Day2::choose));
 
     public static final Day day2a = ls -> {

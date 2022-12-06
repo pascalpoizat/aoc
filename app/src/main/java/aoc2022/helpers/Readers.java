@@ -1,8 +1,12 @@
 package aoc2022.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Readers {
 
@@ -10,7 +14,7 @@ public class Readers {
      * Integer reader.
      * INT
      */
-    public static final Reader<Integer> integer = l -> {
+    public static final LineReader<Integer> integer = l -> {
         try {
             return Optional.ofNullable(Integer.parseInt(l));
         } catch (Exception x) {
@@ -22,8 +26,8 @@ public class Readers {
      * Split line reader.
      * V ::= <T>:t REGEX <U>:u {f(t,u)}
      */
-    public static final <T, U, V> Reader<V> split(String regex, Reader<T> x,
-            Reader<U> y, BiFunction<T, U, V> f) {
+    public static final <T, U, V> LineReader<V> split(String regex, LineReader<T> x,
+            LineReader<U> y, BiFunction<T, U, V> f) {
         return l -> {
             if (regex == null || x == null || y == null || f == null || l == null)
                 return Optional.empty();
@@ -36,6 +40,65 @@ public class Readers {
                 }
             }
             return Optional.empty();
+        };
+    }
+
+    /**
+     * Regex reader.
+     * V ::= REGEX with groups g1 ... gn in a structure t:T, {f(t)}
+     */
+    public static final <T> LineReader<T> regex(String regex, ListCreator<T> f) {
+        return l -> {
+            if (regex == null || regex.equals("") || f == null)
+                return Optional.empty();
+            try {
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(l);
+                if (matcher.matches()) {
+                    List<String> groups = new ArrayList<>();
+                    for (int i = 1; i <= matcher.groupCount(); i++) {
+                        groups.add(matcher.group(i));
+                    }
+                    return f.fromList(groups);
+                } else {
+                    return Optional.empty();
+                }
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        };
+    }
+
+    public static final FileReader<Pair<List<String>, List<String>>> splitUntil(Predicate<String> p, boolean mandatory,
+            boolean keep) {
+        return ls -> {
+            if (p == null || ls == null)
+                return Optional.empty();
+            List<String> before = new ArrayList<>();
+            List<String> after = new ArrayList<>();
+            int i = 0;
+            boolean found = false;
+            while (i < ls.size()) {
+                if (p.test(ls.get(i))) {
+                    found = true;
+                    if (keep) {
+                        before.add(ls.get(i));
+                    }
+                    i++;
+                    break;
+                }
+                before.add(ls.get(i));
+                i++;
+            }
+            while (i < ls.size()) {
+                after.add(ls.get(i));
+                i++;
+            }
+            if (mandatory && !found) {
+                return Optional.empty();
+            } else {
+                return Optional.ofNullable(new Pair<>(before, after));
+            }
         };
     }
 

@@ -26,4 +26,9 @@ public class Pair<T, U> {
     public <V> Pair<T, V> map2(BiFunction<T, U, V> f) {
         return new Pair<>(fst(), f.apply(fst(), snd()));
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%s, %s)", fst(), snd());
+    }
 }
