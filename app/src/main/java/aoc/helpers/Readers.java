@@ -100,7 +100,7 @@ public final class Readers {
             if (mandatory && !found) {
                 return Optional.empty();
             } else {
-                return Optional.ofNullable(new Pair<>(before, after));
+                return Optional.ofNullable(Pair.of(before, after));
             }
         };
     }

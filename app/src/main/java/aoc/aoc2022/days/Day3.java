@@ -27,7 +27,7 @@ public class Day3 {
 
     public static final Pair<String, String> split(String line) {
         int middle = line.length() / 2;
-        return new Pair<>(line.substring(0, middle), line.substring(middle, line.length()));
+        return Pair.of(line.substring(0, middle), line.substring(middle, line.length()));
     }
 
     public static final OptionalInt findDuplicate(String seq1, String seq2) {

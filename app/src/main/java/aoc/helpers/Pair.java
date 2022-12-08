@@ -11,6 +11,10 @@ public class Pair<T, U> {
         this.snd = snd;
     }
 
+    public static final <T, U> Pair<T, U> of(T fst, U snd) {
+        return new Pair<>(fst, snd);
+    }
+
     public T fst() {
         return fst;
     }
@@ -20,11 +24,11 @@ public class Pair<T, U> {
     }
 
     public <V> Pair<V, U> map1(BiFunction<T, U, V> f) {
-        return new Pair<>(f.apply(fst(), snd()), snd());
+        return Pair.of(f.apply(fst(), snd()), snd());
     }
 
     public <V> Pair<T, V> map2(BiFunction<T, U, V> f) {
-        return new Pair<>(fst(), f.apply(fst(), snd()));
+        return Pair.of(fst(), f.apply(fst(), snd()));
     }
 
     @Override

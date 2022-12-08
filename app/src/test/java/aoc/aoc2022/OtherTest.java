@@ -17,7 +17,7 @@ import java.util.OptionalInt;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-public class AppTest {
+public class OtherTest {
 
     private static final Day dummyDay = x -> "";
 
@@ -103,7 +103,7 @@ public class AppTest {
     @Test
     public void map1Pair() {
         int n = 456;
-        Pair<String, Integer> p = new Pair<>("double", n);
+        Pair<String, Integer> p = Pair.of("double", n);
         BiFunction<String, Integer, Integer> f = (s, i) -> switch (s) {
             case "double" -> i * 2;
             case "add1" -> i + 1;
@@ -117,7 +117,7 @@ public class AppTest {
     @Test
     public void map2Pair() {
         int n = 456;
-        Pair<String, Integer> p = new Pair<>("add1", n);
+        Pair<String, Integer> p = Pair.of("add1", n);
         BiFunction<String, Integer, Integer> f = (s, i) -> switch (s) {
             case "double" -> i * 2;
             case "add1" -> i + 1;
@@ -221,43 +221,4 @@ public class AppTest {
         assertEquals(3, m.get().to());
     }
 
-    @Test
-    public void day1a() {
-        assertEquals("69501", Day1.day1a.apply("/aoc2022/input1.txt").orElse("0"));
-    }
-
-    @Test
-    public void day1b() {
-        assertEquals("202346", Day1.day1b.apply("/aoc2022/input1.txt").orElse("0"));
-    }
-
-    @Test
-    public void day2a() {
-        assertEquals("9651", Day2.day2a.apply("/aoc2022/input2.txt").orElse("0"));
-    }
-
-    @Test
-    public void day2b() {
-        assertEquals("10560", Day2.day2b.apply("/aoc2022/input2.txt").orElse("0"));
-    }
-
-    @Test
-    public void day3a() {
-        assertEquals("7831", Day3.day3a.apply("/aoc2022/input3.txt").orElse("0"));
-    }
-
-    @Test
-    public void day3b() {
-        assertEquals("2683", Day3.day3b.apply("/aoc2022/input3.txt").orElse("0"));
-    }
-
-    @Test
-    public void day4a() {
-        assertEquals("528", Day4.day4a.apply("/aoc2022/input4.txt").orElse("0"));
-    }
-
-    @Test
-    public void day4b() {
-        assertEquals("881", Day4.day4b.apply("/aoc2022/input4.txt").orElse("0"));
-    }
 }

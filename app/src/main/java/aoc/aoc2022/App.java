@@ -14,16 +14,16 @@ import aoc.helpers.Pair;
 
 public class App implements AoCApp {
     private Map<String, Pair<String, Day>> days = Map.of(
-            "1a", new Pair<>("/aoc2022/input1.txt", Day1.day1a),
-            "1b", new Pair<>("/aoc2022/input1.txt", Day1.day1b),
-            "2a", new Pair<>("/aoc2022/input2.txt", Day2.day2a),
-            "2b", new Pair<>("/aoc2022/input2.txt", Day2.day2b),
-            "3a", new Pair<>("/aoc2022/input3.txt", Day3.day3a),
-            "3b", new Pair<>("/aoc2022/input3.txt", Day3.day3b),
-            "4a", new Pair<>("/aoc2022/input4.txt", Day4.day4a),
-            "4b", new Pair<>("/aoc2022/input4.txt", Day4.day4b),
-            "5a", new Pair<>("/aoc2022/input5.txt", Day5.day5a),
-            "5b", new Pair<>("/aoc2022/input5.txt", Day5.day5b));
+            "1a", Pair.of("/aoc2022/input1.txt", Day1.day1a),
+            "1b", Pair.of("/aoc2022/input1.txt", Day1.day1b),
+            "2a", Pair.of("/aoc2022/input2.txt", Day2.day2a),
+            "2b", Pair.of("/aoc2022/input2.txt", Day2.day2b),
+            "3a", Pair.of("/aoc2022/input3.txt", Day3.day3a),
+            "3b", Pair.of("/aoc2022/input3.txt", Day3.day3b),
+            "4a", Pair.of("/aoc2022/input4.txt", Day4.day4a),
+            "4b", Pair.of("/aoc2022/input4.txt", Day4.day4b));
+//            "5a", Pair.of("/aoc2022/input5.txt", Day5.day5a),
+//            "5b", Pair.of("/aoc2022/input5.txt", Day5.day5b));
 
     @Override
     public Set<String> days() {

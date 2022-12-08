@@ -11,8 +11,8 @@ import aoc.helpers.Pair;
 
 public class App implements AoCApp {
     private Map<String, Pair<String, Day>> days = Map.of(
-            "1a", new Pair<>("/aoc2015/input1.txt", Day1.day1a),
-            "1b", new Pair<>("/aoc2015/input1.txt", Day1.day1b));
+            "1a", Pair.of("/aoc2015/input1.txt", Day1.day1a),
+            "1b", Pair.of("/aoc2015/input1.txt", Day1.day1b));
 
     @Override
     public Set<String> days() {
