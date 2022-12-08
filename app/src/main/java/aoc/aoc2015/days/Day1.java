@@ -1,13 +1,13 @@
 package aoc.aoc2015.days;
 
 import java.util.List;
-import java.util.PrimitiveIterator.OfInt;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import aoc.helpers.Day;
 
 public class Day1 {
+
+    private Day1() {
+    }
 
     public static int charToStep(int c) {
         return switch (c) {
@@ -26,7 +26,7 @@ public class Day1 {
         List<Integer> steps = ls.get(0).chars().map(Day1::charToStep).boxed().toList();
         int floor = 0;
         int rank = 0;
-        for(int step : steps) {
+        for (int step : steps) {
             rank++;
             floor += step;
             if (floor < 0) {
