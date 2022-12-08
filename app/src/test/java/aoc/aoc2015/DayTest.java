@@ -27,7 +27,9 @@ public class DayTest {
     public static Collection values() {
         return Arrays.asList(new Object[][] {
                 { Day1.day1a, "/aoc2015/input1.txt", "280" },
-                { Day1.day1b, "/aoc2015/input1.txt", "1797" }
+                { Day1.day1b, "/aoc2015/input1.txt", "1797" },
+                { Day2.day2a, "/aoc2015/input2.txt", "1588178"},
+                { Day2.day2b, "/aoc2015/input2.txt", "3783758"}
         });
     }
 
