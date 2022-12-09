@@ -18,7 +18,9 @@ public class App implements AoCApp {
             "3a", Pair.of("/aoc2015/input3.txt", Day3.day3a),
             "3b", Pair.of("/aoc2015/input3.txt", Day3.day3b),
             "4a", Pair.of("/aoc2015/input4.txt", Day4.day4a),
-            "4b", Pair.of("/aoc2015/input4.txt", Day4.day4b)
+            "4b", Pair.of("/aoc2015/input4.txt", Day4.day4b),
+            "5a", Pair.of("/aoc2015/input5.txt", Day5.day5a),
+            "5b", Pair.of("/aoc2015/input5.txt", Day5.day5b)
     );
 
     @Override
