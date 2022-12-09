@@ -14,7 +14,9 @@ public class App implements AoCApp {
             "1a", Pair.of("/aoc2015/input1.txt", Day1.day1a),
             "1b", Pair.of("/aoc2015/input1.txt", Day1.day1b),
             "2a", Pair.of("/aoc2015/input2.txt", Day2.day2a),
-            "2b", Pair.of("/aoc2015/input2.txt", Day2.day2b));
+            "2b", Pair.of("/aoc2015/input2.txt", Day2.day2b),
+            "3a", Pair.of("/aoc2015/input3.txt", Day3.day3a),
+            "3b", Pair.of("/aoc2015/input3.txt", Day3.day3b));
 
     @Override
     public Set<String> days() {
