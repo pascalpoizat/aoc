@@ -63,12 +63,9 @@ public class Day2 {
                 Optional<Integer> h = integer.apply(ls.get(2));
                 if (l.isPresent() && w.isPresent() && h.isPresent()) {
                     return Optional.ofNullable(new Box(l.get(), w.get(), h.get()));
-                } else {
-                    return Optional.empty();
                 }
-            } else {
-                return Optional.empty();
             }
+            return Optional.empty();
         }
 
     }

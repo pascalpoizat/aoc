@@ -6,52 +6,63 @@ import java.util.Map;
 import java.util.Optional;
 
 import aoc.helpers.Day;
-import aoc.helpers.Pair;
 
 public class Day3 {
 
-    private Map<Pair<Integer, Integer>, Integer> visited;
+    private Map<Place, Integer> visited;
 
     private Day3() {
         visited = new HashMap<>();
-        visited.put(Pair.of(0,0), 1);
+        visited.put(new Place(0, 0), 1);
     }
 
     public int nbVisited() {
         return visited.keySet().size();
     }
 
-    public static final Optional<Pair<Integer, Integer>> valueOf(int move) {
+    public record Move(int dx, int dy) {
+        public static final Move of(int dx, int dy) {
+            return new Move(dx, dy);
+        }
+    }
+
+    public record Place(int x, int y) {
+        public static final Place of(int x, int y) {
+            return new Place(x, y);
+        }
+    }
+
+    public static final Optional<Move> valueOf(int move) {
         return switch (move) {
-            case '^' -> Optional.of(Pair.of(0, 1));
-            case 'v' -> Optional.of(Pair.of(0, -1));
-            case '>' -> Optional.of(Pair.of(1, 0));
-            case '<' -> Optional.of(Pair.of(-1, 0));
+            case '^' -> Optional.of(Move.of(0, 1));
+            case 'v' -> Optional.of(Move.of(0, -1));
+            case '>' -> Optional.of(Move.of(1, 0));
+            case '<' -> Optional.of(Move.of(-1, 0));
             default -> Optional.empty();
         };
     }
 
-    public static final Pair<Integer, Integer> move(Pair<Integer, Integer> start, Pair<Integer, Integer> move) {
-        return Pair.of(start.fst() + move.fst(), start.snd() + move.snd());
+    public static final Place move(Place start, Move move) {
+        return Place.of(start.x() + move.dx(), start.y() + move.dy());
     }
 
-    public final void visit(Pair<Integer, Integer> place) {
+    public final void visit(Place place) {
         visited.computeIfAbsent(place, k -> 0);
         visited.put(place, visited.get(place) + 1);
     }
 
-    public static final List<Pair<Integer, Integer>> moves(List<String> ls) {
+    public static final List<Move> moves(List<String> ls) {
         return ls.get(0).chars().boxed()
-        .map(Day3::valueOf)
-        .flatMap(Optional::stream)
-        .toList();
+                .map(Day3::valueOf)
+                .flatMap(Optional::stream)
+                .toList();
     }
 
     public static final Day day3a = ls -> {
         Day3 d = new Day3();
-        Pair<Integer, Integer> here = Pair.of(0, 0);
-        List<Pair<Integer, Integer>> moves = moves(ls);
-        for (Pair<Integer, Integer> m: moves) {
+        Place here = Place.of(0, 0);
+        List<Move> moves = moves(ls);
+        for (Move m : moves) {
             here = move(here, m);
             d.visit(here);
         }
@@ -60,11 +71,11 @@ public class Day3 {
 
     public static final Day day3b = ls -> {
         Day3 d = new Day3();
-        Pair<Integer, Integer> hereSanta = Pair.of(0, 0);
-        Pair<Integer, Integer> hereBot = Pair.of(0, 0);
-        List<Pair<Integer, Integer>> moves = moves(ls);
+        Place hereSanta = Place.of(0, 0);
+        Place hereBot = Place.of(0, 0);
+        List<Move> moves = moves(ls);
         boolean santaTurn = true;
-        for (Pair<Integer, Integer> m: moves) {
+        for (Move m : moves) {
             if (santaTurn) {
                 hereSanta = move(hereSanta, m);
                 d.visit(hereSanta);

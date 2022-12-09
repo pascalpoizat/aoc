@@ -41,12 +41,9 @@ public class Day5 {
                 Optional<Integer> t = integer.apply(ls.get(2));
                 if (q.isPresent() && f.isPresent() && t.isPresent()) {
                     return Optional.ofNullable(new Move(q.get(), f.get(), t.get()));
-                } else {
-                    return Optional.empty();
                 }
-            } else {
-                return Optional.empty();
             }
+            return Optional.empty();
         }
     }
 
@@ -79,7 +76,6 @@ public class Day5 {
             }
             return rtr;
         }
-
     }
 
     public static final LineReader<Move> move = regex("move (\\d+) from (\\d+) to (\\d+)", MoveCreator.instance());
