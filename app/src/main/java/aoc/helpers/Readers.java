@@ -14,6 +14,14 @@ public final class Readers {
     }
 
     /**
+     * Id reader.
+     * ID
+     */
+    public static final LineReader<String> id = l -> {
+        return Optional.ofNullable(l);
+    };
+
+    /**
      * Integer reader.
      * INT
      */
@@ -26,7 +34,7 @@ public final class Readers {
     };
 
     /**
-     * Split line reader.
+     * Split line reader (version that splits in 2)
      * V ::= <T>:t REGEX <U>:u {f(t,u)}
      */
     public static final <T, U, V> LineReader<V> split(String regex, LineReader<T> x,
@@ -47,13 +55,26 @@ public final class Readers {
     }
 
     /**
+     * Split line reader (version that splits in n)
+     * T ::= t1 REGEX t2 REGEX ... REGEX tn {f(t1,t2,...,tn)}
+     */
+    public static final <T> LineReader<T> splitN(String regex, ListCreator<T> f) {
+        return l -> {
+            if (regex == null || f == null || l == null)
+                return Optional.empty();
+            return f.fromList(List.of(l.split(regex)));
+        };
+    }
+
+    /**
      * Regex reader.
      * V ::= REGEX with groups g1 ... gn in a structure t:T, {f(t)}
      */
     public static final <T> LineReader<T> regex(String regex, ListCreator<T> f) {
         return l -> {
-            if (regex == null || regex.equals("") || f == null)
+            if (regex == null || regex.equals("") || f == null) {
                 return Optional.empty();
+            }
             try {
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(l);

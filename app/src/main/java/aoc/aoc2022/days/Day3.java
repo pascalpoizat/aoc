@@ -56,7 +56,7 @@ public class Day3 {
         List<String> current = new ArrayList<>();
         int nb = 0;
         for (String seq : seqs) {
-            if (nb == 3) {
+            if (nb == size) {
                 rtr.add(current);
                 current = new ArrayList<>();
                 current.add(seq);
