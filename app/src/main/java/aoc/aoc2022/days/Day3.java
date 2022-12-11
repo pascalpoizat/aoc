@@ -2,8 +2,10 @@ package aoc.aoc2022.days;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import aoc.helpers.Day;
 import aoc.helpers.Pair;
@@ -13,8 +15,9 @@ public class Day3 {
     private Day3() {
     }
 
-    public static final int priority(int l) {
+    public static final int priority(char i) {
         int rtr;
+        int l = i;
         if (l >= 'a' && l <= 'z') {
             rtr = (l - 'a' + 1);
         } else if (l >= 'A' && l <= 'Z') {
@@ -30,24 +33,26 @@ public class Day3 {
         return Pair.of(line.substring(0, middle), line.substring(middle, line.length()));
     }
 
-    public static final OptionalInt findDuplicate(String seq1, String seq2) {
+    public static final Optional<Character> findDuplicate(String seq1, String seq2) {
         return findDuplicates(seq1, seq2).findFirst();
     }
 
     // ugly
-    public static final IntStream findDuplicates(String seq1, String seq2) {
-        return seq1.chars().filter(c1 -> seq2.chars().anyMatch(c2 -> c1 == c2));
+    public static final Stream<Character> findDuplicates(String seq1, String seq2) {
+        return seq1.chars().filter(c1 -> seq2.chars().anyMatch(c2 -> c1 == c2)).mapToObj(x -> (char) x);
     }
 
-    public static final OptionalInt findDuplicate(List<String> seqs) {
+    public static final Optional<Character> findDuplicate(List<String> seqs) {
         if (seqs.size() < 2) { // if 0 or 1 sequence, nothing to do
-            return OptionalInt.empty();
+            return Optional.empty();
         } else {
-            String rtr = findDuplicates(seqs.get(0), seqs.get(1)).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+            String rtr = findDuplicates(seqs.get(0), seqs.get(1))
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
             for (int i = 2; i < seqs.size(); i++) {
-                rtr = findDuplicates(rtr, seqs.get(i)).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+                rtr = findDuplicates(rtr, seqs.get(i))
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
             }
-            return rtr.chars().findFirst();
+            return rtr.chars().mapToObj(x -> (char) x).findFirst();
         }
     }
 
@@ -77,8 +82,7 @@ public class Day3 {
         int value = ls.stream()
                 .map(Day3::split)
                 .map(seqs -> findDuplicate(seqs.fst(), seqs.snd()))
-                .filter(OptionalInt::isPresent)
-                .map(OptionalInt::getAsInt)
+                .flatMap(Optional::stream)
                 .map(Day3::priority)
                 .reduce(0, (x, y) -> x + y);
         return String.format("%d", value);
@@ -87,8 +91,7 @@ public class Day3 {
     public static final Day day3b = ls -> {
         int value = regroup(ls, 3).stream()
                 .map(Day3::findDuplicate)
-                .filter(OptionalInt::isPresent)
-                .map(OptionalInt::getAsInt)
+                .flatMap(Optional::stream)
                 .map(Day3::priority)
                 .reduce(0, (x, y) -> x + y);
         return String.format("%d", value);

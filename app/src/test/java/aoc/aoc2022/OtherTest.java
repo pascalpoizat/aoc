@@ -190,12 +190,12 @@ public class OtherTest {
         List<List<String>> in = List.of(
                 List.of("vJrwpWtwJgWrhcsFMMfFFhFp", "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", "PmmdzqPrVvPwwTWBwg"),
                 List.of("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn", "ttgJtRGJQctTZtZT", "CrZsJsPPZsGzwwsLwLmpwMDw"));
-        OptionalInt res1 = Day3.findDuplicate(in.get(0));
-        OptionalInt res2 = Day3.findDuplicate(in.get(1));
+        Optional<Character> res1 = Day3.findDuplicate(in.get(0));
+        Optional<Character> res2 = Day3.findDuplicate(in.get(1));
         assertTrue(res1.isPresent());
         assertTrue(res2.isPresent());
-        assertEquals('r', res1.getAsInt());
-        assertEquals('Z', res2.getAsInt());
+        assertEquals('r', res1.get().charValue());
+        assertEquals('Z', res2.get().charValue());
     }
 
     @Test

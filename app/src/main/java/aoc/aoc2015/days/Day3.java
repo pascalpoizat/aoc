@@ -32,8 +32,8 @@ public class Day3 {
         }
     }
 
-    public static final Optional<Move> valueOf(int move) {
-        return switch (move) {
+    public static final Optional<Move> valueOf(Integer move) {
+        return switch ((int)move) {
             case '^' -> Optional.of(Move.of(0, 1));
             case 'v' -> Optional.of(Move.of(0, -1));
             case '>' -> Optional.of(Move.of(1, 0));

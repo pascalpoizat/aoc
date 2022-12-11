@@ -12,6 +12,9 @@ import java.util.function.Function;
 
 public class Day8 {
 
+    private Day8() {
+    }
+
     public static final ListCreator<String> createString = ls -> Optional.of(ls.get(0));
 
     public static final LineReader<String> readString = regex("(.*)", createString);
