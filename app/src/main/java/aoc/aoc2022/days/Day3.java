@@ -3,6 +3,7 @@ package aoc.aoc2022.days;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 import aoc.helpers.Day;
@@ -45,10 +46,12 @@ public class Day3 {
             return Optional.empty();
         } else {
             String rtr = findDuplicates(seqs.get(0), seqs.get(1))
-                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+                    .collect(Collector.of(StringBuilder::new, StringBuilder::append, StringBuilder::append,
+                            StringBuilder::toString));
             for (int i = 2; i < seqs.size(); i++) {
                 rtr = findDuplicates(rtr, seqs.get(i))
-                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+                        .collect(Collector.of(StringBuilder::new, StringBuilder::append, StringBuilder::append,
+                                StringBuilder::toString));
             }
             return rtr.chars().mapToObj(x -> (char) x).findFirst();
         }
