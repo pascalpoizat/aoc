@@ -3,8 +3,6 @@ package aoc.aoc2022.days;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import aoc.helpers.Day;
@@ -15,7 +13,7 @@ public class Day3 {
     private Day3() {
     }
 
-    public static final int priority(char i) {
+    public static final int priority(Character i) {
         int rtr;
         int l = i;
         if (l >= 'a' && l <= 'z') {
