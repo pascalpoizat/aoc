@@ -22,7 +22,7 @@ public class Day9 {
     // use extra node connected to anyone and then travelling salesman ?
 
     public static final ListCreator<Tuple3<String, String, Integer>> edgeCreator = ls -> {
-        if (ls != null || ls.size() == 3) {
+        if (ls != null && ls.size() == 3) {
             Optional<String> from = id.apply(ls.get(0));
             Optional<String> to = id.apply(ls.get(1));
             Optional<Integer> dist = integer.apply(ls.get(2));
