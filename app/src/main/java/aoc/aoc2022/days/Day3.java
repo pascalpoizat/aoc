@@ -3,11 +3,11 @@ package aoc.aoc2022.days;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 import aoc.helpers.Day;
 import aoc.helpers.Pair;
+import static aoc.helpers.Readers.toCharSequence;
 
 public class Day3 {
 
@@ -36,7 +36,7 @@ public class Day3 {
         return findDuplicates(seq1, seq2).findFirst();
     }
 
-    // ugly
+    // ugly TODO: refactor
     public static final Stream<Character> findDuplicates(String seq1, String seq2) {
         return seq1.chars().filter(c1 -> seq2.chars().anyMatch(c2 -> c1 == c2)).mapToObj(x -> (char) x);
     }
@@ -45,13 +45,9 @@ public class Day3 {
         if (seqs.size() < 2) { // if 0 or 1 sequence, nothing to do
             return Optional.empty();
         } else {
-            String rtr = findDuplicates(seqs.get(0), seqs.get(1))
-                    .collect(Collector.of(StringBuilder::new, StringBuilder::append, StringBuilder::append,
-                            StringBuilder::toString));
+            String rtr = toCharSequence(findDuplicates(seqs.get(0), seqs.get(1))).toString();
             for (int i = 2; i < seqs.size(); i++) {
-                rtr = findDuplicates(rtr, seqs.get(i))
-                        .collect(Collector.of(StringBuilder::new, StringBuilder::append, StringBuilder::append,
-                                StringBuilder::toString));
+                rtr = toCharSequence(findDuplicates(rtr, seqs.get(i))).toString();
             }
             return rtr.chars().mapToObj(x -> (char) x).findFirst();
         }

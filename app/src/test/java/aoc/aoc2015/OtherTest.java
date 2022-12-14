@@ -13,6 +13,7 @@ import aoc.aoc2015.days.Day2.Box;
 import aoc.aoc2015.days.Day6.Coordinate;
 import aoc.aoc2015.days.Day6.Instruction;
 import aoc.aoc2015.days.Day6.Order;
+import static aoc.aoc2015.days.Day10.encode;
 
 public class OtherTest {
 
@@ -76,6 +77,15 @@ public class OtherTest {
         Instruction exp1 = new Instruction(Order.TURNON, Coordinate.of(887, 9), Coordinate.of(959, 629));
         assertTrue(i1.isPresent());
         assertEquals(exp1, i1.get());
+    }
+
+    @Test
+    public void testEncode() {
+        assertEquals("11", encode("1"));
+        assertEquals("21", encode("11"));
+        assertEquals("1211", encode("21"));
+        assertEquals("111221", encode("1211"));
+        assertEquals("312211", encode("111221"));
     }
 
 }

@@ -7,10 +7,24 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public final class Readers {
 
     private Readers() {
+    }
+
+    public static final CharSequence toCharSequence(IntStream stream) {
+        return stream.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
+    }
+
+    public static final CharSequence toCharSequence(Stream<Character> stream) {
+        return stream.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
+    }
+
+    public static final CharSequence toCharSequence(String string) {
+        return toCharSequence(string.chars());
     }
 
     /**
