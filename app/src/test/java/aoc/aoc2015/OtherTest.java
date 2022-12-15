@@ -14,6 +14,10 @@ import aoc.aoc2015.days.Day6.Coordinate;
 import aoc.aoc2015.days.Day6.Instruction;
 import aoc.aoc2015.days.Day6.Order;
 import static aoc.aoc2015.days.Day10.encode;
+import static aoc.aoc2015.days.Day11.requirement1;
+import static aoc.aoc2015.days.Day11.requirement2;
+import static aoc.aoc2015.days.Day11.requirement3;
+import static aoc.aoc2015.days.Day11.nextPassword;
 
 public class OtherTest {
 
@@ -88,4 +92,24 @@ public class OtherTest {
         assertEquals("312211", encode("111221"));
     }
 
+    @Test
+    public void testRequirements() {
+        assertTrue(requirement1.test("hijklmmn"));
+        assertFalse(requirement2.test("hijklmmn"));
+        assertTrue(requirement3.test("abbceffg"));
+        assertFalse(requirement1.test("abbceffg"));
+        assertFalse(requirement3.test("abbcegjk"));
+    }
+
+    @Test
+    public void testNextPassword() {
+        assertTrue(requirement1.test("abcdffaa"));
+        assertTrue(requirement2.test("abcdffaa"));
+        assertTrue(requirement3.test("abcdffaa"));
+        assertTrue(requirement1.test("ghjaabcc"));
+        assertTrue(requirement2.test("ghjaabcc"));
+        assertTrue(requirement3.test("ghjaabcc"));
+        assertEquals("abcdffaa", nextPassword("abcdefgh"));
+        assertEquals("ghjaabcc", nextPassword("ghijklmn"));
+    }
 }

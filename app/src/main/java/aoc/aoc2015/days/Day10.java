@@ -5,6 +5,9 @@ import aoc.helpers.Day;
 
 public class Day10 {
 
+    private Day10() {
+    }
+
     public static final CharSequence encode(CharSequence word) {
         StringBuilder rtr = new StringBuilder();
         int i = 0;
