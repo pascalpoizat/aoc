@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import aoc.aoc2022.App;
 
 public interface Day extends Function<String, Optional<String>> {
-    String computation(List<String> lines);
+    String compute(List<String> lines);
 
     @Override
     default Optional<String> apply(String filename) {
@@ -21,7 +21,7 @@ public interface Day extends Function<String, Optional<String>> {
             Path path = Paths.get(uri);
             Stream<String> stream = Files.lines(path);
             try (stream) {
-                return Optional.ofNullable(computation(stream.toList()));
+                return Optional.ofNullable(compute(stream.toList()));
             }
         } catch (Exception e) {
             e.printStackTrace();

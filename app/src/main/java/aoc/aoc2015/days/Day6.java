@@ -68,11 +68,9 @@ public class Day6 {
                 Coordinate c1 = from.get();
                 Coordinate c2 = to.get();
                 if (c1.x() < 0 || c1.x() >= SIZE || c1.y() < 0 || c1.y() >= SIZE) {
-                    System.out.println(c1);
                     return Optional.empty();
                 }
                 if (c2.x() < 0 || c2.x() >= SIZE || c2.y() < 0 || c2.y() >= SIZE) {
-                    System.out.println(c2);
                     return Optional.empty();
                 }
                 return Optional.ofNullable(new Instruction(order.get(), from.get(), to.get()));

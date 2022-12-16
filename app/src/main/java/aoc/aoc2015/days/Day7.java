@@ -325,7 +325,6 @@ public class Day7 {
                 .flatMap(Optional::stream)
                 .forEach(line -> c.set(line.snd(), line.fst()));
         Optional<Integer> value = c.value(new Wire("a"));
-        System.out.println(value.get());
         c.reset();
         c.set(new Wire("b"), new Number(value.get()));
         return c.value(new Wire("a")).map(i -> i.toString()).orElse("not found");

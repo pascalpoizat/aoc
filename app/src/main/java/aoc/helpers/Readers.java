@@ -107,6 +107,25 @@ public final class Readers {
         };
     }
 
+    public static final <T> LineReader<T> findAll(String regex, ListCreator<T> f) {
+        return l -> {
+            if (regex == null || regex.equals("") || f == null) {
+                return Optional.empty();
+            }
+            try {
+                List<String> instances = new ArrayList<>();
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(l);
+                while(matcher.find()) {
+                    instances.add(matcher.group());
+                }
+                return f.fromList(instances);
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        };
+    }
+
     public static final FileReader<Pair<List<String>, List<String>>> splitUntil(Predicate<String> p, boolean mandatory,
             boolean keep) {
         return ls -> {

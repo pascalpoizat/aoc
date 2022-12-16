@@ -32,13 +32,13 @@ public class Day10 {
     }
    
     public static final Day day10a = ls -> {       
-        if (ls == null || ls.size() < 1)
+        if (ls == null || ls.isEmpty())
             return "";
         return String.format("%d", turn(40, ls.get(0)).length());
     };
 
     public static final Day day10b = ls -> {
-        if (ls == null || ls.size() < 1)
+        if (ls == null || ls.isEmpty())
             return "";
         return String.format("%d", turn(50, ls.get(0)).length());
     };

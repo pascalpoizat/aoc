@@ -2,9 +2,17 @@ package aoc.aoc2015;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import aoc.helpers.JsonObjectMapper;
 
 import aoc.aoc2015.days.Day5;
 import aoc.aoc2015.days.Day6;
@@ -13,11 +21,15 @@ import aoc.aoc2015.days.Day2.Box;
 import aoc.aoc2015.days.Day6.Coordinate;
 import aoc.aoc2015.days.Day6.Instruction;
 import aoc.aoc2015.days.Day6.Order;
+
 import static aoc.aoc2015.days.Day10.encode;
 import static aoc.aoc2015.days.Day11.requirement1;
 import static aoc.aoc2015.days.Day11.requirement2;
 import static aoc.aoc2015.days.Day11.requirement3;
 import static aoc.aoc2015.days.Day11.nextPassword;
+
+import aoc.aoc2015.days.Day12;
+import static aoc.aoc2015.days.Day12.hasStringValue;
 
 public class OtherTest {
 
@@ -111,5 +123,57 @@ public class OtherTest {
         assertTrue(requirement3.test("ghjaabcc"));
         assertEquals("abcdffaa", nextPassword("abcdefgh"));
         assertEquals("ghjaabcc", nextPassword("ghijklmn"));
+    }
+
+    @Test
+    public void testHasStringValue() {
+        try {
+            ObjectMapper mapper = JsonObjectMapper.instance().mapper();
+            JsonNode node1 = mapper.readTree("[1, \"red\", 5]");
+            JsonNode node2 = mapper.readTree("[1,{\"c\":\"red\",\"b\":2},3]");
+            JsonNode node3 = mapper.readTree("{\"c\":\"red\",\"b\":2}");
+            assertFalse(hasStringValue.apply("red").test(node1));
+            assertFalse(hasStringValue.apply("red").test(node2));
+            assertTrue(hasStringValue.apply("red").test(node3));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    public static String helperValue(Predicate<JsonNode> p, String node) {
+        return Day12.day.apply(p).compute(new ArrayList<>(List.of(node)));
+    }
+
+    @Test
+    public void testValue() {
+        try {
+            String node1 = "[1,2,3]";
+            String node2 = "{\"a\":2,\"b\":4}";
+            String node3 = "[[[3]]]";
+            String node4 = "{\"a\":{\"b\":4},\"c\":-1}";
+            String node5 = "{\"a\":[-1,1]}";
+            String node6 = "[-1,{\"a\":1}]";
+            String node7 = "[]";
+            String node8 = "{}";
+            String node9 = "[1, \"red\", 5]";
+            String node10 = "[1,{\"c\":\"red\",\"b\":2},3]";
+            String node11 = "{\"c\":\"red\",\"b\":2}";
+            Predicate<JsonNode> p1 = n -> true;
+            Predicate<JsonNode> p2 = hasStringValue.apply("red").negate();
+            assertEquals("6", helperValue(p1, node1));
+            assertEquals("6", helperValue(p1, node2));
+            assertEquals("3", helperValue(p1, node3));
+            assertEquals("3", helperValue(p1, node4));
+            assertEquals("0", helperValue(p1, node5));
+            assertEquals("0", helperValue(p1, node6));
+            assertEquals("0", helperValue(p1, node7));
+            assertEquals("0", helperValue(p1, node8));
+            assertEquals("6", helperValue(p2, node1));  
+            assertEquals("6", helperValue(p2, node9));  
+            assertEquals("4", helperValue(p2, node10));  
+            assertEquals("0", helperValue(p2, node11));  
+        } catch (Exception e) {
+            fail();
+        }
     }
 }

@@ -47,7 +47,9 @@ public class DayTest {
                 { Day10.day10a, "/aoc2015/input10.txt", "360154"},
                 { Day10.day10b, "/aoc2015/input10.txt", "5103798"},
                 { Day11.day11a, "/aoc2015/input11.txt", "vzbxxyzz"},
-                { Day11.day11b, "/aoc2015/input11.txt", "vzcaabcc"}
+                { Day11.day11b, "/aoc2015/input11.txt", "vzcaabcc"},
+                { Day12.day12a, "/aoc2015/input12.txt", "156366"},
+                { Day12.day12b, "/aoc2015/input12.txt", "96852"}
         });
     }
 

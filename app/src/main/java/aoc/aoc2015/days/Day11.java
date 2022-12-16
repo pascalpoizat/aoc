@@ -6,6 +6,9 @@ import aoc.helpers.Day;
 
 public class Day11 {
 
+    private Day11() {
+    }
+
     // ...(c)(c+1)(c+2)...
     public static final Predicate<CharSequence> requirement1 = cs -> {
         int i = 0;
@@ -69,13 +72,13 @@ public class Day11 {
     }
 
     public static final Day day11a = ls -> {
-        if (ls == null || ls.size() < 1)
+        if (ls == null || ls.isEmpty())
             return "";
         return String.format("%s", nextPassword(ls.get(0)));
     };
 
     public static final Day day11b = ls -> {
-        if (ls == null || ls.size() < 1)
+        if (ls == null || ls.isEmpty())
             return "";
         return String.format("%s", nextPassword(nextPassword(ls.get(0))));
     };
