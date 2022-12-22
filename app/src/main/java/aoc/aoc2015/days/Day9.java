@@ -3,6 +3,7 @@ package aoc.aoc2015.days;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import aoc.helpers.Generator;
@@ -10,7 +11,11 @@ import aoc.helpers.Graph;
 import aoc.helpers.LineReader;
 import aoc.helpers.ListCreator;
 import static aoc.helpers.Readers.*;
+import static aoc.helpers.Maths.*;
 
+import aoc.helpers.contextual.SelectorGenerator;
+import aoc.helpers.contextual.EvaluatorGenerator;
+import aoc.helpers.contextual.PredicateGenerator;
 import aoc.helpers.Day;
 import io.vavr.Tuple;
 import io.vavr.Tuple3;
@@ -25,54 +30,19 @@ public class Day9 {
     // use extra node connected to anyone and then travelling salesman ?
     // use ugly solution for small graphs ? -> YES :-)
 
-    public static final void swap(List<Integer> values, int i, int j) {
-        Integer aux = values.get(i);
-        values.set(i, values.get(j));
-        values.set(j, aux);
-    }
-
-    // https://en.wikipedia.org/wiki/Heap%27s_algorithm
-    public static final List<List<Integer>> permutations(List<Integer> values) {
-        List<List<Integer>> rtr = new ArrayList<>();
-        List<Integer> A = new ArrayList<>(values);
-        int n = values.size();
-        int[] c = new int[n];
-        for (int i = 0; i < n; i++) {
-            c[i] = 0;
-        }
-        rtr.add(new ArrayList<>(A));
-        int i = 1;
-        while (i < n) {
-            if (c[i] < i) {
-                if (i % 2 == 0) {
-                    swap(A, 0, i);
-                } else {
-                    swap(A, c[i], i);
-                }
-                rtr.add(new ArrayList<>(A));
-                c[i] += 1;
-                i = 1;
-            } else {
-                c[i] = 0;
-                i += 1;
-            }
-        }
-        return rtr;
-    }
-
-    public static final Integer pathValue(Graph<Integer, String, Integer> g, List<Integer> path) {
+    public static final EvaluatorGenerator<Graph<Integer, String, Integer>, List<Integer>> valueOf = g -> path -> {
         int value = 0;
         int size = path.size();
         for (int i = 0; i < size - 1; i++) {
             value = value + g.label(path.get(i), path.get(i + 1)).orElse(0);
         }
         return value;
-    }
+    };
 
-    public static final boolean isHamiltonian(Graph<Integer, String, Integer> g, List<Integer> path) {
-        // due to the way we build path (using permutations) we only have to check that
-        // for each (path_i, path_i+1) in path (i in 0..size-2) we have a corresponding
-        // edge in g
+    // due to the way we build path (using permutations) we only have to check that
+    // for each (path_i, path_i+1) in path (i in 0..size-2) we have a corresponding
+    // edge in g
+    public static final PredicateGenerator<Graph<Integer, String, Integer>, List<Integer>> isHamiltonian = g -> path -> {
         boolean rtr = true;
         int size = path.size();
         for (int i = 0; i < size - 1; i++) {
@@ -81,20 +51,16 @@ public class Day9 {
             }
         }
         return rtr;
+    };
+
+    public static final <C, S> SelectorGenerator<C, S> minSolution(PredicateGenerator<C, S> cp,
+            EvaluatorGenerator<C, S> cv) {
+        return c -> ss -> ss.parallelStream().filter(cp.generate(c)).map(cv.generate(c)).min(Integer::compareTo);
     }
 
-    public static final Optional<Integer> shortestPath(Graph<Integer,String,Integer> g, List<List<Integer>> paths) {
-        return paths.parallelStream()
-                .filter(p -> isHamiltonian(g, p))
-                .map(p -> pathValue(g, p))
-                .min((x, y) -> x.compareTo(y));
-    }
-
-    public static final Optional<Integer> longestPath(Graph<Integer,String,Integer> g, List<List<Integer>> paths) {
-        return paths.parallelStream()
-                .filter(p -> isHamiltonian(g, p))
-                .map(p -> pathValue(g, p))
-                .max((x, y) -> x.compareTo(y));
+    public static final <C, S> SelectorGenerator<C, S> maxSolution(PredicateGenerator<C, S> cp,
+            EvaluatorGenerator<C, S> cv) {
+        return c -> ss -> ss.parallelStream().filter(cp.generate(c)).map(cv.generate(c)).max(Integer::compareTo);
     }
 
     public static final ListCreator<Tuple3<String, String, Integer>> edgeCreator = ls -> {
@@ -111,15 +77,15 @@ public class Day9 {
 
     public static final String pretty(Graph<Integer, String, Integer> g, List<Integer> path) {
         return path.stream()
-                        .map(g::label)
-                        .flatMap(Optional::stream)
-                        .collect(Collectors.joining(" -> "));
+                .map(g::label)
+                .flatMap(Optional::stream)
+                .collect(Collectors.joining(" -> "));
     }
 
     public static final LineReader<Tuple3<String, String, Integer>> edgeReader = regex("([^ ]+) to ([^ ]+) = ([\\d]*)",
             edgeCreator);
 
-    public static final Day day9a = ls -> {
+    public static final Function<SelectorGenerator<Graph<Integer, String, Integer>, List<Integer>>, Day> day = f -> ls -> {
         Generator<Integer> gen = new Generator<>(0, x -> x + 1);
         Graph<Integer, String, Integer> g = new Graph<>(gen, true);
         // load
@@ -131,22 +97,11 @@ public class Day9 {
                     g.createEdge(g.getOrCreateNode(t._2()), g.getOrCreateNode(t._1()), t._3());
                 });
         // work
-        return String.format("%d", shortestPath(g, permutations(new ArrayList<>(g.nodes()))).orElse(0));
+        return String.format("%d", f.generate(g).apply(permutations(new ArrayList<>(g.nodes()))).orElse(0));
     };
 
-    public static final Day day9b = ls -> {
-        Generator<Integer> gen = new Generator<>(0, x -> x + 1);
-        Graph<Integer, String, Integer> g = new Graph<>(gen, true);
-        // load
-        ls.stream()
-                .map(edgeReader)
-                .flatMap(Optional::stream)
-                .forEach(t -> {
-                    g.createEdge(g.getOrCreateNode(t._1()), g.getOrCreateNode(t._2()), t._3());
-                    g.createEdge(g.getOrCreateNode(t._2()), g.getOrCreateNode(t._1()), t._3());
-                });
-        // work
-        return String.format("%d", longestPath(g, permutations(new ArrayList<>(g.nodes()))).orElse(0));
-    };
+    public static final Day day9a = day.apply(minSolution(isHamiltonian, valueOf));
+
+    public static final Day day9b = day.apply(maxSolution(isHamiltonian, valueOf));
 
 }
