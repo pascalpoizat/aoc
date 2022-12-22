@@ -80,7 +80,7 @@ public class Day14 {
             Optional<Integer> max = distances.stream().max(Integer::compareTo);
             if (max.isPresent()) {
                 for(int i = 0; i < nb; i++) {
-                    if (distances.get(i) == max.get()) {
+                    if (distances.get(i).equals(max.get())) {
                         scores.set(i, scores.get(i)+1);
                     }
                 }
