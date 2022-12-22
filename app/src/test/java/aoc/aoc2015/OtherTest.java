@@ -16,6 +16,7 @@ import aoc.helpers.JsonObjectMapper;
 
 import aoc.aoc2015.days.Day5;
 import aoc.aoc2015.days.Day6;
+import aoc.aoc2015.days.Day14.Reindeer;
 import aoc.aoc2015.days.Day4;
 import aoc.aoc2015.days.Day2.Box;
 import aoc.aoc2015.days.Day6.Coordinate;
@@ -175,5 +176,13 @@ public class OtherTest {
         } catch (Exception e) {
             fail();
         }
+    }
+
+    @Test
+    public void testFlightDistance() {
+        Reindeer comet = new Reindeer(14, 10, 127);
+        Reindeer dancer = new Reindeer(16, 11, 162);
+        assertEquals(1120, comet.distanceAt(1000));
+        assertEquals(1056, dancer.distanceAt(1000));
     }
 }
