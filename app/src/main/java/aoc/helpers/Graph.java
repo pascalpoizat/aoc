@@ -13,12 +13,14 @@ public class Graph<T, U, V> {
     private Map<T, U> nodes;
     private Map<T, Map<T, V>> edges;
     boolean uniqueLabel;
+    boolean bidirectionalCreation;
     private final Generator<T> g;
 
-    public Graph(Generator<T> g, boolean uniqueLabel) {
+    public Graph(Generator<T> g, boolean uniqueLabel, boolean bidirectionalCreation) {
         this.nodes = new HashMap<>();
         this.edges = new HashMap<>();
         this.uniqueLabel = uniqueLabel;
+        this.bidirectionalCreation = bidirectionalCreation;
         this.g = g;
     }
 
@@ -74,12 +76,20 @@ public class Graph<T, U, V> {
         return fromLabel(label).stream().findFirst().orElse(createNode(label));
     }
 
-    public boolean createEdge(T from, T to, V value) {
+    private boolean createEdgeBase(T from, T to, V value) {
         if (!hasNode(from) || !hasNode(to) || hasEdge(from, to)) {
             return false;
         }
         edges.get(from).computeIfAbsent(to, k -> value);
         return true;
+    }
+
+    public boolean createEdge(T from, T to, V value) {
+        boolean rtr = createEdgeBase(from, to, value);
+        if (bidirectionalCreation) {
+            rtr = rtr && createEdgeBase(to, from, value);
+        }
+        return rtr;
     }
 
     @Override
