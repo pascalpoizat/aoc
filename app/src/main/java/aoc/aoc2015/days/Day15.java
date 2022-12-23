@@ -65,7 +65,6 @@ public class Day15 {
 
     public static final Day day15a = ls -> {
         List<Ingredient> ingredients = ls.stream().map(ingredientReader).flatMap(Optional::stream).toList();
-        System.out.println(ingredients);
         Supplier<Optional<List<Integer>>> s = supplier.apply(ingredients.size(), MAX);
         return Stream.generate(s)
                 .takeWhile(Optional::isPresent)
@@ -80,7 +79,6 @@ public class Day15 {
 
     public static final Day day15b = ls -> {
         List<Ingredient> ingredients = ls.stream().map(ingredientReader).flatMap(Optional::stream).toList();
-        System.out.println(ingredients);
         Supplier<Optional<List<Integer>>> s = supplier.apply(ingredients.size(), MAX);
         return Stream.generate(s)
                 .takeWhile(Optional::isPresent)
