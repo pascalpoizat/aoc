@@ -193,8 +193,8 @@ public class OtherTest {
 
     @Test
     public void testCuisine() {
-        Ingredient butterscotch = new Ingredient(-1,-2,6,3,8);
-        Ingredient cinnamon = new Ingredient(2,3,-2,-1,3);
+        Ingredient butterscotch = new Ingredient("Butterscotch", -1,-2,6,3,8);
+        Ingredient cinnamon = new Ingredient("Cinnamon", 2,3,-2,-1,3);
         List<Tuple2<Ingredient, Integer>> doses = List.of(Tuple.of(butterscotch, 44), Tuple.of(cinnamon, 56));
         assertEquals(62842880, score(doses));
     }
