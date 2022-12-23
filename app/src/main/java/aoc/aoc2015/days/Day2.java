@@ -62,7 +62,7 @@ public class Day2 {
                 Optional<Integer> w = integer.apply(ls.get(1));
                 Optional<Integer> h = integer.apply(ls.get(2));
                 if (l.isPresent() && w.isPresent() && h.isPresent()) {
-                    return Optional.ofNullable(new Box(l.get(), w.get(), h.get()));
+                    return Optional.of(new Box(l.get(), w.get(), h.get()));
                 }
             }
             return Optional.empty();
@@ -75,7 +75,7 @@ public class Day2 {
                 .map(regex("(\\d+)x(\\d+)x(\\d+)", new BoxCreator()))
                 .flatMap(Optional::stream)
                 .map(Box::paperSurface)
-                .reduce(0, (x, y) -> x + y);
+                .reduce(0, Integer::sum);
         return String.format("%d", surface);
     };
 
@@ -84,7 +84,7 @@ public class Day2 {
                 .map(regex("(\\d+)x(\\d+)x(\\d+)", new BoxCreator()))
                 .flatMap(Optional::stream)
                 .map(Box::ribbonSize)
-                .reduce(0, (x, y) -> x + y);
+                .reduce(0, Integer::sum);
         return String.format("%d", size);
     };
 }

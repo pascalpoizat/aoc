@@ -10,8 +10,8 @@ import io.vavr.Tuple;
 import io.vavr.Tuple2;
 
 public class Graph<T, U, V> {
-    private Map<T, U> nodes;
-    private Map<T, Map<T, V>> edges;
+    private final Map<T, U> nodes;
+    private final Map<T, Map<T, V>> edges;
     boolean uniqueLabel;
     boolean bidirectionalCreation;
     private final Generator<T> g;

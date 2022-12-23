@@ -17,8 +17,8 @@ public class Day4 {
     }
 
     public static class Range {
-        private int start;
-        private int end;
+        private final int start;
+        private final int end;
 
         public Range(Integer start, Integer end) {
             this.start = start;

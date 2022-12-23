@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -130,12 +129,14 @@ public class OtherTest {
 
     @Test
     public void scoreRockPaperScissors() {
-        String plays[][] = { { "A", "Y" }, { "B", "X" }, { "C", "Z" } };
+        String[][] plays = { { "A", "Y" }, { "B", "X" }, { "C", "Z" } };
         int score = 0;
-        for (int play = 0; play < plays.length; play++) {
-            Day2.Play adversary = Day2.readPlay.apply(plays[play][0]).get();
-            Day2.Play me = Day2.readPlay.apply(plays[play][1]).get();
-            score += Day2.score(adversary, me);
+        for (String[] strings : plays) {
+            Optional<Day2.Play> adversary = Day2.readPlay.apply(strings[0]);
+            Optional<Day2.Play> me = Day2.readPlay.apply(strings[1]);
+            if (adversary.isPresent() && me.isPresent()) {
+                score += Day2.score(adversary.get(), me.get());
+            }
         }
         assertEquals(15, score);
     }

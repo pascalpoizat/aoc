@@ -3,8 +3,8 @@ package aoc.helpers;
 import java.util.List;
 
 public class Node<T> implements Tree<T> {
-    private T value;
-    private List<Tree<T>> children;
+    private final T value;
+    private final List<Tree<T>> children;
 
     public Node(T value, List<Tree<T>> children) {
         this.value = value;

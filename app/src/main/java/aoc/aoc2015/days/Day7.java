@@ -3,7 +3,6 @@ package aoc.aoc2015.days;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import aoc.helpers.Day;
 import aoc.helpers.LineReader;
@@ -26,7 +25,7 @@ public class Day7 {
     // VALUE ::= NUMBER | WIRE
 
     public static class Context {
-        private Map<Wire, Instruction> values;
+        private final Map<Wire, Instruction> values;
         private Map<Wire, Optional<Integer>> memory;
 
         public Context() {
@@ -49,10 +48,6 @@ public class Day7 {
             return memory.get(wire);
         }
 
-        public Set<Wire> ids() {
-            return values.keySet();
-        }
-
     }
 
     public interface Instruction {
@@ -60,7 +55,7 @@ public class Day7 {
     }
 
     public static class INot implements Instruction {
-        private Value instr;
+        private final Value instr;
 
         public INot(Value instr) {
             this.instr = instr;
@@ -69,16 +64,13 @@ public class Day7 {
         @Override
         public Optional<Integer> value(Context c) {
             Optional<Integer> v = instr.value(c);
-            if (v.isPresent())
-                return Optional.ofNullable((int) (char) ~v.get());
-            else
-                return Optional.empty();
+            return v.map(value -> (int) (char) ~value);
         }
     }
 
     public static class IAnd implements Instruction {
-        private Value left;
-        private Value right;
+        private final Value left;
+        private final Value right;
 
         public IAnd(Value left, Value right) {
             this.left = left;
@@ -90,15 +82,15 @@ public class Day7 {
             Optional<Integer> l = left.value(c);
             Optional<Integer> r = right.value(c);
             if (l.isPresent() && r.isPresent())
-                return Optional.ofNullable(l.get() & r.get());
+                return Optional.of(l.get() & r.get());
             else
                 return Optional.empty();
         }
     }
 
     public static class IOr implements Instruction {
-        private Value left;
-        private Value right;
+        private final Value left;
+        private final Value right;
 
         public IOr(Value left, Value right) {
             this.left = left;
@@ -110,15 +102,15 @@ public class Day7 {
             Optional<Integer> l = left.value(c);
             Optional<Integer> r = right.value(c);
             if (l.isPresent() && r.isPresent())
-                return Optional.ofNullable(l.get() | r.get());
+                return Optional.of(l.get() | r.get());
             else
                 return Optional.empty();
         }
     }
 
     public static class ILShift implements Instruction {
-        private Value left;
-        private Value right;
+        private final Value left;
+        private final Value right;
 
         public ILShift(Value left, Value right) {
             this.left = left;
@@ -130,15 +122,15 @@ public class Day7 {
             Optional<Integer> l = left.value(c);
             Optional<Integer> r = right.value(c);
             if (l.isPresent() && r.isPresent())
-                return Optional.ofNullable(l.get() << r.get());
+                return Optional.of(l.get() << r.get());
             else
                 return Optional.empty();
         }
     }
 
     public static class IRShift implements Instruction {
-        private Value left;
-        private Value right;
+        private final Value left;
+        private final Value right;
 
         public IRShift(Value left, Value right) {
             this.left = left;
@@ -150,7 +142,7 @@ public class Day7 {
             Optional<Integer> l = left.value(c);
             Optional<Integer> r = right.value(c);
             if (l.isPresent() && r.isPresent())
-                return Optional.ofNullable(l.get() >> r.get());
+                return Optional.of(l.get() >> r.get());
             else
                 return Optional.empty();
         }
@@ -160,7 +152,7 @@ public class Day7 {
     }
 
     public static class Number implements Value {
-        private int value;
+        private final int value;
 
         public Number(Integer value) {
             this.value = value;
@@ -168,12 +160,12 @@ public class Day7 {
 
         @Override
         public Optional<Integer> value(Context c) {
-            return Optional.ofNullable(value);
+            return Optional.of(value);
         }
     }
 
     public static class Wire implements Value, Comparable<Wire> {
-        private String wire;
+        private final String wire;
 
         public Wire(String wire) {
             this.wire = wire;
@@ -202,11 +194,8 @@ public class Day7 {
                 return false;
             Wire other = (Wire) obj;
             if (wire == null) {
-                if (other.wire != null)
-                    return false;
-            } else if (!wire.equals(other.wire))
-                return false;
-            return true;
+                return other.wire == null;
+            } else return wire.equals(other.wire);
         }
 
         @Override
@@ -236,7 +225,7 @@ public class Day7 {
         Optional<Value> left = createValue.apply(ls.get(0));
         Optional<Value> right = createValue.apply(ls.get(2));
         if (left.isPresent() && right.isPresent()) {
-            return Optional.ofNullable(new IAnd(left.get(), right.get()));
+            return Optional.of(new IAnd(left.get(), right.get()));
         } else {
             return Optional.empty();
         }
@@ -246,7 +235,7 @@ public class Day7 {
         Optional<Value> left = createValue.apply(ls.get(0));
         Optional<Value> right = createValue.apply(ls.get(2));
         if (left.isPresent() && right.isPresent()) {
-            return Optional.ofNullable(new IOr(left.get(), right.get()));
+            return Optional.of(new IOr(left.get(), right.get()));
         } else {
             return Optional.empty();
         }
@@ -256,7 +245,7 @@ public class Day7 {
         Optional<Value> left = createValue.apply(ls.get(0));
         Optional<Value> right = createValue.apply(ls.get(2));
         if (left.isPresent() && right.isPresent()) {
-            return Optional.ofNullable(new ILShift(left.get(), right.get()));
+            return Optional.of(new ILShift(left.get(), right.get()));
         } else {
             return Optional.empty();
         }
@@ -266,7 +255,7 @@ public class Day7 {
         Optional<Value> left = createValue.apply(ls.get(0));
         Optional<Value> right = createValue.apply(ls.get(2));
         if (left.isPresent() && right.isPresent()) {
-            return Optional.ofNullable(new IRShift(left.get(), right.get()));
+            return Optional.of(new IRShift(left.get(), right.get()));
         } else {
             return Optional.empty();
         }
@@ -276,7 +265,7 @@ public class Day7 {
         if(ls.get(0).strip().equals("NOT")) {
             Optional<Value> instr = createValue.apply(ls.get(1));
             if (instr.isPresent()) {
-                return Optional.ofNullable(new INot(instr.get()));
+                return Optional.of(new INot(instr.get()));
             }
         }
         return Optional.empty();
@@ -284,17 +273,13 @@ public class Day7 {
 
     public static final ListCreator<Instruction> createBinary = ls -> {
         String instruction = ls.get(1);
-        if (instruction.equals("AND")) {
-            return createAnd.fromList(ls);
-        } else if (instruction.equals("OR")) {
-            return createOr.fromList(ls);
-        } else if (instruction.equals("LSHIFT")) {
-            return createLShift.fromList(ls);
-        } else if (instruction.equals("RSHIFT")) {
-            return createRShift.fromList(ls);
-        } else {
-            return Optional.empty();
-        }
+        return switch (instruction) {
+            case "AND" -> createAnd.fromList(ls);
+            case "OR" -> createOr.fromList(ls);
+            case "LSHIFT" -> createLShift.fromList(ls);
+            case "RSHIFT" -> createRShift.fromList(ls);
+            default -> Optional.empty();
+        };
     };
 
     public static final ListCreator<Instruction> createInstruction = ls -> switch (ls.size()) {
@@ -315,7 +300,7 @@ public class Day7 {
                 .map(readDefinition)
                 .flatMap(Optional::stream)
                 .forEach(line -> c.set(line.snd(), line.fst()));
-        return c.value(new Wire("a")).map(i -> i.toString()).orElse("not found");
+        return c.value(new Wire("a")).map(Object::toString).orElse("not found");
     };
 
     public static final Day day7b = ls -> {
@@ -325,9 +310,13 @@ public class Day7 {
                 .flatMap(Optional::stream)
                 .forEach(line -> c.set(line.snd(), line.fst()));
         Optional<Integer> value = c.value(new Wire("a"));
-        c.reset();
-        c.set(new Wire("b"), new Number(value.get()));
-        return c.value(new Wire("a")).map(i -> i.toString()).orElse("not found");
+        if (value.isPresent()) {
+            c.reset();
+            c.set(new Wire("b"), new Number(value.get()));
+            return c.value(new Wire("a")).map(Object::toString).orElse("not found");
+        } else {
+            return "not found";
+        }
     };
 
 }

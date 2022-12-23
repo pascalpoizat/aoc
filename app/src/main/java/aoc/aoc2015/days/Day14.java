@@ -15,9 +15,9 @@ public class Day14 {
     }
 
     public static class Reindeer {
-        private int speed;
-        private int flyTime;
-        private int restTime;
+        private final int speed;
+        private final int flyTime;
+        private final int restTime;
 
         public Reindeer(int speed, int flyTime, int restTime) {
             this.speed = speed;
@@ -30,7 +30,7 @@ public class Day14 {
             int fullPeriods = seconds / (flyTime + restTime);
             rtr = rtr + fullPeriods * speed * flyTime;
             int remainingTime = seconds - (fullPeriods * (flyTime + restTime));
-            int remainingFlyTime = (remainingTime >= flyTime) ? flyTime : remainingTime;
+            int remainingFlyTime = Math.min(remainingTime, flyTime);
             rtr = rtr + speed * remainingFlyTime;
             return rtr;
         }
@@ -42,7 +42,7 @@ public class Day14 {
             Optional<Integer> flyTime = integer.apply(ls.get(1));
             Optional<Integer> restTime = integer.apply(ls.get(2));
             if (speed.isPresent() && flyTime.isPresent() && restTime.isPresent()) {
-                return Optional.ofNullable(new Reindeer(speed.get(), flyTime.get(), restTime.get()));
+                return Optional.of(new Reindeer(speed.get(), flyTime.get(), restTime.get()));
             }
         }
         return Optional.empty();

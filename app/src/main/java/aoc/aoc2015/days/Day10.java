@@ -8,7 +8,7 @@ public class Day10 {
     private Day10() {
     }
 
-    public static final CharSequence encode(CharSequence word) {
+    public static CharSequence encode(CharSequence word) {
         StringBuilder rtr = new StringBuilder();
         int i = 0;
         int size = word.length();
@@ -26,7 +26,7 @@ public class Day10 {
         return rtr.toString();
     }
 
-    public static final CharSequence turn(int remain, CharSequence values) {
+    public static CharSequence turn(int remain, CharSequence values) {
         if (remain == 0) return values;
         else return turn(remain - 1, encode(values));
     }

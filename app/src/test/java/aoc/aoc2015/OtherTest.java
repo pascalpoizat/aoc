@@ -17,20 +17,25 @@ import aoc.helpers.JsonObjectMapper;
 import aoc.aoc2015.days.Day5;
 import aoc.aoc2015.days.Day6;
 import aoc.aoc2015.days.Day14.Reindeer;
+import aoc.aoc2015.days.Day15.Ingredient;
+import aoc.aoc2015.days.Day15.ListGenerator;
 import aoc.aoc2015.days.Day4;
 import aoc.aoc2015.days.Day2.Box;
 import aoc.aoc2015.days.Day6.Coordinate;
 import aoc.aoc2015.days.Day6.Instruction;
 import aoc.aoc2015.days.Day6.Order;
-
 import static aoc.aoc2015.days.Day10.encode;
 import static aoc.aoc2015.days.Day11.requirement1;
 import static aoc.aoc2015.days.Day11.requirement2;
 import static aoc.aoc2015.days.Day11.requirement3;
 import static aoc.aoc2015.days.Day11.nextPassword;
+import static aoc.aoc2015.days.Day15.score;
 
 import aoc.aoc2015.days.Day12;
 import static aoc.aoc2015.days.Day12.hasStringValue;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 
 public class OtherTest {
 
@@ -185,4 +190,31 @@ public class OtherTest {
         assertEquals(1120, comet.distanceAt(1000));
         assertEquals(1056, dancer.distanceAt(1000));
     }
+
+    @Test
+    public void testCuisine() {
+        Ingredient butterscotch = new Ingredient(-1,-2,6,3,8);
+        Ingredient cinnamon = new Ingredient(2,3,-2,-1,3);
+        List<Tuple2<Ingredient, Integer>> doses = List.of(Tuple.of(butterscotch, 44), Tuple.of(cinnamon, 56));
+        assertEquals(62842880, score(doses));
+    }
+
+    @Test
+    public void testListGenerator() {
+        // i too big
+        Optional<List<Integer>> res1 = ListGenerator.next(List.of(0,0,0,0), 4, 100);
+        assertFalse(res1.isPresent());
+        // item is 100 + last
+        Optional<List<Integer>> res2 = ListGenerator.next(List.of(0,0,0,100), 3, 100);
+        assertFalse(res2.isPresent());
+        // item is 100 + not last
+        Optional<List<Integer>> res3 = ListGenerator.next(List.of(0,0,100,0), 2, 100);
+        assertTrue(res3.isPresent());
+        assertEquals(List.of(0,0,0,1), res3.get());
+        // item is less than 100
+        Optional<List<Integer>> res4 = ListGenerator.next(List.of(0,0,99,0), 2, 100);
+        assertTrue(res4.isPresent());
+        assertEquals(List.of(0,0,100,0), res4.get());
+    }
+
 }

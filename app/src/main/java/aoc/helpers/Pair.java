@@ -3,15 +3,15 @@ package aoc.helpers;
 import java.util.function.BiFunction;
 
 public class Pair<T, U> {
-    private T fst;
-    private U snd;
+    private final T fst;
+    private final U snd;
 
     public Pair(T fst, U snd) {
         this.fst = fst;
         this.snd = snd;
     }
 
-    public static final <T, U> Pair<T, U> of(T fst, U snd) {
+    public static <T, U> Pair<T, U> of(T fst, U snd) {
         return new Pair<>(fst, snd);
     }
 
@@ -60,11 +60,8 @@ public class Pair<T, U> {
         } else if (!fst.equals(other.fst))
             return false;
         if (snd == null) {
-            if (other.snd != null)
-                return false;
-        } else if (!snd.equals(other.snd))
-            return false;
-        return true;
+            return other.snd == null;
+        } else return snd.equals(other.snd);
     }
 
 }

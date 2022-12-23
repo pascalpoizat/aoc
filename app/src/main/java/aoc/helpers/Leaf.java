@@ -1,7 +1,7 @@
 package aoc.helpers;
 
 public class Leaf<T> implements Tree<T> {
-    private T value;
+    private final T value;
 
     public Leaf(T value) {
         this.value = value;

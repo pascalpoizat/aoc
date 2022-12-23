@@ -29,7 +29,7 @@ public class Day5 {
 
         public static final MoveCreator instance = new MoveCreator();
 
-        public static final MoveCreator instance() {
+        public static MoveCreator instance() {
             return instance;
         }
 
@@ -40,16 +40,16 @@ public class Day5 {
                 Optional<Integer> f = integer.apply(ls.get(1));
                 Optional<Integer> t = integer.apply(ls.get(2));
                 if (q.isPresent() && f.isPresent() && t.isPresent()) {
-                    return Optional.ofNullable(new Move(q.get(), f.get(), t.get()));
+                    return Optional.of(new Move(q.get(), f.get(), t.get()));
                 }
             }
             return Optional.empty();
         }
     }
 
-    public class Board {
-        private int size;
-        private List<Stack<Crate>> piles;
+    public static class Board {
+        private final int size;
+        private final List<Stack<Crate>> piles;
 
         public Board(int size) {
             this.size = size;

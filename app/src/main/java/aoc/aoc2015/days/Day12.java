@@ -26,13 +26,13 @@ public class Day12 {
     public static final ListCreator<Integer> somme = ls -> {
         if (ls == null)
             return Optional.empty();
-        return Optional.ofNullable(ls.stream()
+        return Optional.of(ls.stream()
                 .map(integer)
                 .flatMap(Optional::stream)
-                .reduce(0, (x, y) -> x + y));
+                .reduce(0, Integer::sum));
     };
 
-    public static final int valueForNode(JsonNode node) {
+    public static int valueForNode(JsonNode node) {
         if (node.isNumber()) {
             return node.asInt();
         } else {
@@ -56,8 +56,8 @@ public class Day12 {
     };
 
     // DO NOT USE ON A STRUCTURE WITH CYCLES!
-    public static final int traverse(List<JsonNode> nodes, Function<JsonNode, Integer> f, Predicate<JsonNode> p,
-            int acc) {
+    public static int traverse(List<JsonNode> nodes, Function<JsonNode, Integer> f, Predicate<JsonNode> p,
+                               int acc) {
         // no nodes: return accumulator
         if (nodes == null || nodes.isEmpty()) {
             return acc;

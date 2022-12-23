@@ -14,8 +14,8 @@ public class Day6 {
 
     private static final int SIZE = 1000;
 
-    private boolean[][] table = new boolean[SIZE][SIZE];
-    private int[][] table2 = new int[SIZE][SIZE];
+    private final boolean[][] table = new boolean[SIZE][SIZE];
+    private final int[][] table2 = new int[SIZE][SIZE];
 
     private Day6() {
         for (int i = 0; i < SIZE; i++) {
@@ -27,11 +27,11 @@ public class Day6 {
     }
 
     public enum Order {
-        TURNON, TURNOFF, TOGGLE;
+        TURNON, TURNOFF, TOGGLE
     }
 
     public record Coordinate(int x, int y) {
-        public static final Coordinate of(int x, int y) {
+        public static Coordinate of(int x, int y) {
             return new Coordinate(x, y);
         }
     }
@@ -39,7 +39,7 @@ public class Day6 {
     public record Instruction(Order order, Coordinate from, Coordinate to) {
     }
 
-    public static final Optional<Order> readOrder(String s) {
+    public static Optional<Order> readOrder(String s) {
         return switch (s.strip()) {
             case "turn on" -> Optional.of(Order.TURNON);
             case "turn off" -> Optional.of(Order.TURNOFF);
@@ -53,7 +53,7 @@ public class Day6 {
             Optional<Integer> x = integer.apply(ls.get(0));
             Optional<Integer> y = integer.apply(ls.get(1));
             if (x.isPresent() && y.isPresent()) {
-                return Optional.ofNullable(Coordinate.of(x.get(), y.get()));
+                return Optional.of(Coordinate.of(x.get(), y.get()));
             }
         }
         return Optional.empty();
@@ -73,7 +73,7 @@ public class Day6 {
                 if (c2.x() < 0 || c2.x() >= SIZE || c2.y() < 0 || c2.y() >= SIZE) {
                     return Optional.empty();
                 }
-                return Optional.ofNullable(new Instruction(order.get(), from.get(), to.get()));
+                return Optional.of(new Instruction(order.get(), from.get(), to.get()));
             }
         }
         return Optional.empty();
@@ -81,33 +81,21 @@ public class Day6 {
 
     public void performOrder(Order o, int x, int y) {
         switch (o) {
-            case TURNON:
-                table[x][y] = true;
-                break;
-            case TURNOFF:
-                table[x][y] = false;
-                break;
-            case TOGGLE:
-                table[x][y] = !table[x][y];
-                break;
-            default:
-                break;
+            case TURNON -> table[x][y] = true;
+            case TURNOFF -> table[x][y] = false;
+            case TOGGLE -> table[x][y] = !table[x][y];
+            default -> {
+            }
         }
     }
 
     public void performOrder2(Order o, int x, int y) {
         switch (o) {
-            case TURNON:
-                table2[x][y] = table2[x][y] + 1;
-                break;
-            case TURNOFF:
-                table2[x][y] = (table2[x][y] <= 1) ? 0 : table2[x][y] - 1;
-                break;
-            case TOGGLE:
-                table2[x][y] = table2[x][y] + 2;
-                break;
-            default:
-                break;
+            case TURNON -> table2[x][y] = table2[x][y] + 1;
+            case TURNOFF -> table2[x][y] = (table2[x][y] <= 1) ? 0 : table2[x][y] - 1;
+            case TOGGLE -> table2[x][y] = table2[x][y] + 2;
+            default -> {
+            }
         }
     }
 

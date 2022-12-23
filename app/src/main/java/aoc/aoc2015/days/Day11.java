@@ -48,7 +48,7 @@ public class Day11 {
 
     public static final Predicate<CharSequence> requirements = requirement1.and(requirement2).and(requirement3);
 
-    public static final CharSequence next(CharSequence word) {
+    public static CharSequence next(CharSequence word) {
         char[] w = word.toString().toCharArray();
         int i = w.length-1;
         while (i > 0) {
@@ -63,7 +63,7 @@ public class Day11 {
         return new String(w);
     }
 
-    public static final CharSequence nextPassword(CharSequence word) {
+    public static CharSequence nextPassword(CharSequence word) {
         CharSequence rtr = next(word);
         while(!requirements.test(rtr)) {
             rtr = next(rtr);

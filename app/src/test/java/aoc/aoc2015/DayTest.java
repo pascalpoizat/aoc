@@ -13,9 +13,9 @@ import java.util.Collection;
 
 @RunWith(Parameterized.class)
 public class DayTest {
-    private Day day;
-    private String filename;
-    private String result;
+    private final Day day;
+    private final String filename;
+    private final String result;
 
     public DayTest(Day day, String filename, String result) {
         this.day = day;
@@ -24,7 +24,7 @@ public class DayTest {
     }
 
     @Parameterized.Parameters
-    public static Collection values() {
+    public static Collection<Object[]> values() {
         return Arrays.asList(new Object[][] {
                 { Day1.day1a, "/aoc2015/input1.txt", "280" },
                 { Day1.day1b, "/aoc2015/input1.txt", "1797" },
@@ -53,7 +53,9 @@ public class DayTest {
                 { Day13.day13a, "/aoc2015/input13.txt", "618"},
                 { Day13.day13b, "/aoc2015/input13.txt", "601"},
                 { Day14.day14a, "/aoc2015/input14.txt", "2696"},
-                { Day14.day14b, "/aoc2015/input14.txt", "1084"}
+                { Day14.day14b, "/aoc2015/input14.txt", "1084"},
+                { Day15.day15a, "/aoc2015/input15.txt", ""},
+                { Day15.day15b, "/aoc2015/input15.txt", ""}
         });
     }
 

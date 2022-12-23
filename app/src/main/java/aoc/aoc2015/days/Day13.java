@@ -45,10 +45,10 @@ public class Day13 {
             int person = people.get(i);
             int previous = people.get(previous(size, i));
             int next = people.get(next(size, i));
-            if (g.hasEdge(person, previous)) {
+            if (g.hasEdge(person, previous) && g.label(person, previous).isPresent()) {
                 rtr = rtr + g.label(person, previous).get();
             }
-            if (g.hasEdge(person, next)) {
+            if (g.hasEdge(person, next) && g.label(person, next).isPresent()) {
                 rtr = rtr + g.label(person, next).get();
             }
         }
@@ -62,7 +62,7 @@ public class Day13 {
             Optional<Integer> value = integer.apply(ls.get(2));
             Optional<String> other = id.apply(ls.get(3));
             if (person.isPresent() && action.isPresent() && value.isPresent() && other.isPresent()) {
-                return Optional.ofNullable(Tuple.of(person.get(), action.get(), value.get(), other.get()));
+                return Optional.of(Tuple.of(person.get(), action.get(), value.get(), other.get()));
             }
         }
         return Optional.empty();

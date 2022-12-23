@@ -38,7 +38,7 @@ public class Day2 {
         }
     }
 
-    public static final Play playToLose(Play play) {
+    public static Play playToLose(Play play) {
         return switch (play) {
             case ROCK -> Play.SCISSORS;
             case PAPER -> Play.ROCK;
@@ -46,7 +46,7 @@ public class Day2 {
         };
     }
 
-    public static final Play playToWin(Play play) {
+    public static Play playToWin(Play play) {
         return switch (play) {
             case ROCK -> Play.PAPER;
             case PAPER -> Play.SCISSORS;
@@ -68,7 +68,7 @@ public class Day2 {
         default -> Optional.empty();
     };
 
-    public static final Result play(Play adversary, Play me) {
+    public static Result play(Play adversary, Play me) {
         if (me == adversary)
             return Result.TIE;
         if (adversary == Play.ROCK && me == Play.PAPER)
@@ -80,7 +80,7 @@ public class Day2 {
         return Result.LOST;
     }
 
-    public static final Play choose(Play adversary, Result objective) {
+    public static Play choose(Play adversary, Result objective) {
         if (objective == Result.TIE)
             return adversary;
         if (objective == Result.WON)
@@ -88,11 +88,11 @@ public class Day2 {
         return playToLose(adversary);
     }
 
-    public static final int score(Play adversary, Play me) {
+    public static int score(Play adversary, Play me) {
         return me.value() + play(adversary, me).value();
     }
 
-    public static final int score(Pair<Play, Play> play) {
+    public static int score(Pair<Play, Play> play) {
         return score(play.fst(), play.snd());
     }
 
@@ -107,7 +107,7 @@ public class Day2 {
                 .map(split1)
                 .flatMap(Optional::stream)
                 .map(Day2::score)
-                .reduce(0, (x, y) -> x + y);
+                .reduce(0, Integer::sum);
         return String.format("%d", score);
     };
 
@@ -116,7 +116,7 @@ public class Day2 {
                 .map(split2)
                 .flatMap(Optional::stream)
                 .map(Day2::score)
-                .reduce(0, (x, y) -> x + y);
+                .reduce(0, Integer::sum);
         return String.format("%d", score);
     };
 

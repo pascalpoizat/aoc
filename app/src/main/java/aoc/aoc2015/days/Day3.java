@@ -9,7 +9,7 @@ import aoc.helpers.Day;
 
 public class Day3 {
 
-    private Map<Place, Integer> visited;
+    private final Map<Place, Integer> visited;
 
     private Day3() {
         visited = new HashMap<>();
@@ -21,37 +21,37 @@ public class Day3 {
     }
 
     public record Move(int dx, int dy) {
-        public static final Move of(int dx, int dy) {
+        public static Move of(int dx, int dy) {
             return new Move(dx, dy);
         }
     }
 
     public record Place(int x, int y) {
-        public static final Place of(int x, int y) {
+        public static Place of(int x, int y) {
             return new Place(x, y);
         }
     }
 
-    public static final Optional<Move> valueOf(Integer move) {
-        return switch ((int)move) {
-            case '^' -> Optional.of(Move.of(0, 1));
-            case 'v' -> Optional.of(Move.of(0, -1));
-            case '>' -> Optional.of(Move.of(1, 0));
-            case '<' -> Optional.of(Move.of(-1, 0));
+    public static Optional<Move> valueOf(Integer move) {
+        return switch (move) {
+            case (int) '^' -> Optional.of(Move.of(0, 1));
+            case (int) 'v' -> Optional.of(Move.of(0, -1));
+            case (int) '>' -> Optional.of(Move.of(1, 0));
+            case (int) '<' -> Optional.of(Move.of(-1, 0));
             default -> Optional.empty();
         };
     }
 
-    public static final Place move(Place start, Move move) {
+    public static Place move(Place start, Move move) {
         return Place.of(start.x() + move.dx(), start.y() + move.dy());
     }
 
     public final void visit(Place place) {
-        visited.computeIfAbsent(place, k -> 0);
+        visited.putIfAbsent(place, 0);
         visited.put(place, visited.get(place) + 1);
     }
 
-    public static final List<Move> moves(List<String> ls) {
+    public static List<Move> moves(List<String> ls) {
         return ls.get(0).chars().boxed()
                 .map(Day3::valueOf)
                 .flatMap(Optional::stream)

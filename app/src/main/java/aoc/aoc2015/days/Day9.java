@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import aoc.helpers.Day;
 import aoc.helpers.Generator;
@@ -28,7 +27,7 @@ public class Day9 {
     }
 
     // the problem is finding the shortest Hamiltonian path
-    // use bitmasking and dynamic programming ?
+    // use bit-masking and dynamic programming ?
     // use extra node connected to anyone and then travelling salesman ?
     // use ugly solution for small graphs ? -> YES :-)
 
@@ -61,18 +60,11 @@ public class Day9 {
             Optional<String> to = id.apply(ls.get(1));
             Optional<Integer> dist = integer.apply(ls.get(2));
             if (from.isPresent() && to.isPresent() && dist.isPresent()) {
-                return Optional.ofNullable(Tuple.of(from.get(), to.get(), dist.get()));
+                return Optional.of(Tuple.of(from.get(), to.get(), dist.get()));
             }
         }
         return Optional.empty();
     };
-
-    public static final String pretty(Graph<Integer, String, Integer> g, List<Integer> path) {
-        return path.stream()
-                .map(g::label)
-                .flatMap(Optional::stream)
-                .collect(Collectors.joining(" -> "));
-    }
 
     public static final LineReader<Tuple3<String, String, Integer>> edgeReader = regex("([^ ]+) to ([^ ]+) = ([\\d]*)",
             edgeCreator);

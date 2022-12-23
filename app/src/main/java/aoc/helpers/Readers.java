@@ -15,15 +15,15 @@ public final class Readers {
     private Readers() {
     }
 
-    public static final CharSequence toCharSequence(IntStream stream) {
+    public static CharSequence toCharSequence(IntStream stream) {
         return stream.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
     }
 
-    public static final CharSequence toCharSequence(Stream<Character> stream) {
+    public static CharSequence toCharSequence(Stream<Character> stream) {
         return stream.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
     }
 
-    public static final CharSequence toCharSequence(String string) {
+    public static CharSequence toCharSequence(String string) {
         return toCharSequence(string.chars());
     }
 
@@ -31,9 +31,7 @@ public final class Readers {
      * Id reader.
      * ID
      */
-    public static final LineReader<String> id = l -> {
-        return Optional.ofNullable(l);
-    };
+    public static final LineReader<String> id = Optional::ofNullable;
 
     /**
      * Integer reader.
@@ -41,7 +39,7 @@ public final class Readers {
      */
     public static final LineReader<Integer> integer = l -> {
         try {
-            return Optional.ofNullable(Integer.parseInt(l));
+            return Optional.of(Integer.parseInt(l));
         } catch (Exception x) {
             return Optional.empty();
         }
@@ -51,8 +49,8 @@ public final class Readers {
      * Split line reader (version that splits in 2)
      * V ::= <T>:t REGEX <U>:u {f(t,u)}
      */
-    public static final <T, U, V> LineReader<V> split(String regex, LineReader<T> x,
-            LineReader<U> y, BiFunction<T, U, V> f) {
+    public static <T, U, V> LineReader<V> split(String regex, LineReader<T> x,
+                                                LineReader<U> y, BiFunction<T, U, V> f) {
         return l -> {
             if (regex == null || x == null || y == null || f == null || l == null)
                 return Optional.empty();
@@ -72,7 +70,7 @@ public final class Readers {
      * Split line reader (version that splits in n)
      * T ::= t1 REGEX t2 REGEX ... REGEX tn {f(t1,t2,...,tn)}
      */
-    public static final <T> LineReader<T> splitN(String regex, ListCreator<T> f) {
+    public static <T> LineReader<T> splitN(String regex, ListCreator<T> f) {
         return l -> {
             if (regex == null || f == null || l == null)
                 return Optional.empty();
@@ -84,7 +82,7 @@ public final class Readers {
      * Regex reader.
      * V ::= REGEX with groups g1 ... gn in a structure t:T, {f(t)}
      */
-    public static final <T> LineReader<T> regex(String regex, ListCreator<T> f) {
+    public static <T> LineReader<T> regex(String regex, ListCreator<T> f) {
         return l -> {
             if (regex == null || regex.equals("") || f == null) {
                 return Optional.empty();
@@ -107,7 +105,7 @@ public final class Readers {
         };
     }
 
-    public static final <T> LineReader<T> findAll(String regex, ListCreator<T> f) {
+    public static <T> LineReader<T> findAll(String regex, ListCreator<T> f) {
         return l -> {
             if (regex == null || regex.equals("") || f == null) {
                 return Optional.empty();
@@ -126,8 +124,8 @@ public final class Readers {
         };
     }
 
-    public static final FileReader<Pair<List<String>, List<String>>> splitUntil(Predicate<String> p, boolean mandatory,
-            boolean keep) {
+    public static FileReader<Pair<List<String>, List<String>>> splitUntil(Predicate<String> p, boolean mandatory,
+                                                                          boolean keep) {
         return ls -> {
             if (p == null || ls == null)
                 return Optional.empty();
@@ -154,7 +152,7 @@ public final class Readers {
             if (mandatory && !found) {
                 return Optional.empty();
             } else {
-                return Optional.ofNullable(Pair.of(before, after));
+                return Optional.of(Pair.of(before, after));
             }
         };
     }

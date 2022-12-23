@@ -14,7 +14,7 @@ public class Day3 {
     private Day3() {
     }
 
-    public static final int priority(Character i) {
+    public static int priority(Character i) {
         int rtr;
         int l = i;
         if (l >= 'a' && l <= 'z') {
@@ -27,21 +27,21 @@ public class Day3 {
         return rtr;
     }
 
-    public static final Pair<String, String> split(String line) {
+    public static Pair<String, String> split(String line) {
         int middle = line.length() / 2;
-        return Pair.of(line.substring(0, middle), line.substring(middle, line.length()));
+        return Pair.of(line.substring(0, middle), line.substring(middle));
     }
 
-    public static final Optional<Character> findDuplicate(String seq1, String seq2) {
+    public static Optional<Character> findDuplicate(String seq1, String seq2) {
         return findDuplicates(seq1, seq2).findFirst();
     }
 
     // ugly TODO: refactor
-    public static final Stream<Character> findDuplicates(String seq1, String seq2) {
+    public static Stream<Character> findDuplicates(String seq1, String seq2) {
         return seq1.chars().filter(c1 -> seq2.chars().anyMatch(c2 -> c1 == c2)).mapToObj(x -> (char) x);
     }
 
-    public static final Optional<Character> findDuplicate(List<String> seqs) {
+    public static Optional<Character> findDuplicate(List<String> seqs) {
         if (seqs.size() < 2) { // if 0 or 1 sequence, nothing to do
             return Optional.empty();
         } else {
@@ -53,7 +53,7 @@ public class Day3 {
         }
     }
 
-    public static final List<List<String>> regroup(List<String> seqs, int size) {
+    public static List<List<String>> regroup(List<String> seqs, int size) {
         List<List<String>> rtr = new ArrayList<>();
         List<String> current = new ArrayList<>();
         int nb = 0;
@@ -81,7 +81,7 @@ public class Day3 {
                 .map(seqs -> findDuplicate(seqs.fst(), seqs.snd()))
                 .flatMap(Optional::stream)
                 .map(Day3::priority)
-                .reduce(0, (x, y) -> x + y);
+                .reduce(0, Integer::sum);
         return String.format("%d", value);
     };
 
@@ -90,7 +90,7 @@ public class Day3 {
                 .map(Day3::findDuplicate)
                 .flatMap(Optional::stream)
                 .map(Day3::priority)
-                .reduce(0, (x, y) -> x + y);
+                .reduce(0, Integer::sum);
         return String.format("%d", value);
     };
 

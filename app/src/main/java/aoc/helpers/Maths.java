@@ -8,22 +8,22 @@ public class Maths {
     private Maths() {
     }
 
-    public static final int previous(int max, int rank) {
+    public static int previous(int max, int rank) {
         return (rank <= 0) ? max - 1 : rank - 1;
     }
 
-    public static final int next(int max, int rank) {
+    public static int next(int max, int rank) {
         return (rank >= max - 1) ? 0 : rank + 1;
     }
 
-    public static final void swap(List<Integer> values, int i, int j) {
+    public static void swap(List<Integer> values, int i, int j) {
         Integer aux = values.get(i);
         values.set(i, values.get(j));
         values.set(j, aux);
     }
     
     // https://en.wikipedia.org/wiki/Heap%27s_algorithm
-    public static final List<List<Integer>> permutations(List<Integer> values) {
+    public static List<List<Integer>> permutations(List<Integer> values) {
         List<List<Integer>> rtr = new ArrayList<>();
         List<Integer> a = new ArrayList<>(values);
         int n = values.size();

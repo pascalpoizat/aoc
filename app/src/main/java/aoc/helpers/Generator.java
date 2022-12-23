@@ -3,14 +3,12 @@ package aoc.helpers;
 import java.util.function.UnaryOperator;
 
 public class Generator<T> {
-    private T zero;
-    private UnaryOperator<T> next;
+    private final UnaryOperator<T> next;
     private T current;
 
     public Generator(T zero, UnaryOperator<T> next) {
-        this.zero = zero;
         this.next = next;
-        this.current = this.zero;
+        this.current = zero;
     }
 
     public T next() {

@@ -11,7 +11,7 @@ public class Day1 {
     private Day1() {
     }
 
-    private static final List<Integer> day1(List<String> ls) {
+    private static List<Integer> day1(List<String> ls) {
         List<Integer> es = new ArrayList<>();
         int current = 0;
         for (String e : ls) {
@@ -19,7 +19,7 @@ public class Day1 {
                 es.add(current);
                 current = 0;
             } else { // calories
-                int val = 0;
+                int val;
                 try {
                     val = Integer.parseInt(e);
                     current += val;
@@ -35,6 +35,6 @@ public class Day1 {
     public static final Day day1a = ls -> String.format("%d", day1(ls).get(0));
 
     public static final Day day1b = ls -> String.format("%d",
-            day1(ls).stream().limit(3).reduce(0, (x, y) -> x + y));
+            day1(ls).stream().limit(3).reduce(0, Integer::sum));
 
 }

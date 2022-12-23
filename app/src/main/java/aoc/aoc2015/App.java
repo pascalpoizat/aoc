@@ -11,7 +11,7 @@ import aoc.helpers.Day;
 import aoc.helpers.Pair;
 
 public class App implements AoCApp {
-    private Map<String, Pair<String, Day>> days;
+    private final Map<String, Pair<String, Day>> days;
 
     public App() {
         days = new HashMap<>();
@@ -43,6 +43,8 @@ public class App implements AoCApp {
         days.put("13b", Pair.of("/aoc2015/input13.txt", Day13.day13b));
         days.put("14a", Pair.of("/aoc2015/input14.txt", Day14.day14a));
         days.put("14b", Pair.of("/aoc2015/input14.txt", Day14.day14b));
+        days.put("15a", Pair.of("/aoc2015/input15.txt", Day15.day15a));
+        days.put("15b", Pair.of("/aoc2015/input15.txt", Day15.day15b));
     }
 
     @Override

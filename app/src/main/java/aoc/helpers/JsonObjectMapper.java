@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonObjectMapper {
     private static JsonObjectMapper instance;
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     private JsonObjectMapper() {
         mapper = new ObjectMapper();
     }
 
-    public static final JsonObjectMapper instance() {
+    public static JsonObjectMapper instance() {
         if (instance == null) {
             instance = new JsonObjectMapper();
         }
