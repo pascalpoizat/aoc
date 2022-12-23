@@ -18,7 +18,6 @@ import aoc.aoc2015.days.Day5;
 import aoc.aoc2015.days.Day6;
 import aoc.aoc2015.days.Day14.Reindeer;
 import aoc.aoc2015.days.Day15.Ingredient;
-import aoc.aoc2015.days.Day15.ListGenerator;
 import aoc.aoc2015.days.Day4;
 import aoc.aoc2015.days.Day2.Box;
 import aoc.aoc2015.days.Day6.Coordinate;
@@ -30,9 +29,9 @@ import static aoc.aoc2015.days.Day11.requirement2;
 import static aoc.aoc2015.days.Day11.requirement3;
 import static aoc.aoc2015.days.Day11.nextPassword;
 import static aoc.aoc2015.days.Day15.score;
-
 import aoc.aoc2015.days.Day12;
 import static aoc.aoc2015.days.Day12.hasStringValue;
+import aoc.helpers.ListGenerator;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple2;

@@ -1,9 +1,7 @@
 package aoc.aoc2015.days;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -12,10 +10,12 @@ import aoc.helpers.Day;
 
 import aoc.helpers.LineReader;
 import aoc.helpers.ListCreator;
+import static aoc.helpers.ListGenerator.supplier;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.Tuple4;
 
+import static aoc.helpers.Maths.zip;
 import static aoc.helpers.Readers.*;
 
 public class Day15 {
@@ -25,48 +25,6 @@ public class Day15 {
 
     private Day15() {
     }
-
-    public static class ListGenerator {
-
-        private final int max;
-        private List<Integer> current;
-
-        public ListGenerator(int n, int max) {
-            this.max = max;
-            this.current = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                this.current.add(0);
-            }
-        }
-
-        public static Optional<List<Integer>> next(List<Integer> l, int i, int max) {
-            if (l == null || i < 0 || i >= l.size()) {
-                return Optional.empty();
-            }
-            List<Integer> newL = new ArrayList<>(l);
-            if (l.get(i) >= max) {
-                newL.set(i, 0);
-                return next(newL, i + 1, max);
-            }
-            newL.set(i, l.get(i) + 1);
-            return Optional.of(newL);
-        }
-
-        private Optional<List<Integer>> next() {
-            return next(current, 0, max);
-        }
-
-        public Optional<List<Integer>> generate() {
-            Optional<List<Integer>> rtr = Optional.ofNullable(current);
-            Optional<List<Integer>> newL = next();
-            // no next possible
-            current = newL.orElse(null);
-            return rtr;
-        }
-    }
-
-    public static final BiFunction<Integer, Integer, Supplier<Optional<List<Integer>>>> sgen =
-            (n, max) -> new ListGenerator(n, max)::generate;
 
     public record Ingredient(String name, int capacity, int durability, int flavor, int texture, int calories) {
     }
@@ -105,19 +63,11 @@ public class Day15 {
 
     public static LineReader<Ingredient> ingredientReader = regex("([^:]+): capacity (-?[\\d]+), durability (-?[\\d]+), flavor (-?[\\d]+), texture (-?[\\d]+), calories (-?[\\d]+)", ingredientCreator);
 
-    public static <A, B> List<Tuple2<A, B>> zip(List<A> as, List<B> bs) {
-        List<Tuple2<A, B>> rtr = new ArrayList<>();
-        for (int i = 0; i < Math.min(as.size(), bs.size()); i++) {
-            rtr.add(Tuple.of(as.get(i), bs.get(i)));
-        }
-        return rtr;
-    }
-
     public static final Day day15a = ls -> {
         List<Ingredient> ingredients = ls.stream().map(ingredientReader).flatMap(Optional::stream).toList();
         System.out.println(ingredients);
-        Supplier<Optional<List<Integer>>> supplier = sgen.apply(ingredients.size(), MAX);
-        return Stream.generate(supplier)
+        Supplier<Optional<List<Integer>>> s = supplier.apply(ingredients.size(), MAX);
+        return Stream.generate(s)
                 .takeWhile(Optional::isPresent)
                 .flatMap(Optional::stream)
                 .filter(l -> (l.stream().reduce(0, Integer::sum)) == MAX)
@@ -131,8 +81,8 @@ public class Day15 {
     public static final Day day15b = ls -> {
         List<Ingredient> ingredients = ls.stream().map(ingredientReader).flatMap(Optional::stream).toList();
         System.out.println(ingredients);
-        Supplier<Optional<List<Integer>>> supplier = sgen.apply(ingredients.size(), MAX);
-        return Stream.generate(supplier)
+        Supplier<Optional<List<Integer>>> s = supplier.apply(ingredients.size(), MAX);
+        return Stream.generate(s)
                 .takeWhile(Optional::isPresent)
                 .flatMap(Optional::stream)
                 .filter(l -> (l.stream().reduce(0, Integer::sum)) == MAX)

@@ -47,6 +47,8 @@ public class App implements AoCApp {
         days.put("15b", Pair.of("/aoc2015/input15.txt", Day15.day15b));
         days.put("16a", Pair.of("/aoc2015/input16.txt", Day16.day16a));
         days.put("16b", Pair.of("/aoc2015/input16.txt", Day16.day16b));
+        days.put("17a", Pair.of("/aoc2015/input17.txt", Day17.day17a));
+        days.put("17b", Pair.of("/aoc2015/input17.txt", Day17.day17b));
     }
 
     @Override

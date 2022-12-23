@@ -1,5 +1,8 @@
 package aoc.helpers;
 
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +24,15 @@ public class Maths {
         values.set(i, values.get(j));
         values.set(j, aux);
     }
-    
+
+    public static <A, B> List<Tuple2<A, B>> zip(List<A> as, List<B> bs) {
+        List<Tuple2<A, B>> rtr = new ArrayList<>();
+        for (int i = 0; i < Math.min(as.size(), bs.size()); i++) {
+            rtr.add(Tuple.of(as.get(i), bs.get(i)));
+        }
+        return rtr;
+    }
+
     // https://en.wikipedia.org/wiki/Heap%27s_algorithm
     public static List<List<Integer>> permutations(List<Integer> values) {
         List<List<Integer>> rtr = new ArrayList<>();
