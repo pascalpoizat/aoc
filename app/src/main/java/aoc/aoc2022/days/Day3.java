@@ -36,7 +36,6 @@ public class Day3 {
         return findDuplicates(seq1, seq2).findFirst();
     }
 
-    // ugly TODO: refactor
     public static Stream<Character> findDuplicates(String seq1, String seq2) {
         return seq1.chars().filter(c1 -> seq2.chars().anyMatch(c2 -> c1 == c2)).mapToObj(x -> (char) x);
     }
