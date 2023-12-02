@@ -6,8 +6,10 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import aoc.helpers.Day;
-import aoc.helpers.Pair;
 import static aoc.helpers.Readers.toCharSequence;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 
 public class Day3 {
 
@@ -27,9 +29,9 @@ public class Day3 {
         return rtr;
     }
 
-    public static Pair<String, String> split(String line) {
+    public static Tuple2<String, String> split(String line) {
         int middle = line.length() / 2;
-        return Pair.of(line.substring(0, middle), line.substring(middle));
+        return Tuple.of(line.substring(0, middle), line.substring(middle));
     }
 
     public static Optional<Character> findDuplicate(String seq1, String seq2) {
@@ -77,7 +79,7 @@ public class Day3 {
     public static final Day day3a = ls -> {
         int value = ls.stream()
                 .map(Day3::split)
-                .map(seqs -> findDuplicate(seqs.fst(), seqs.snd()))
+                .map(seqs -> findDuplicate(seqs._1(), seqs._2()))
                 .flatMap(Optional::stream)
                 .map(Day3::priority)
                 .reduce(0, Integer::sum);

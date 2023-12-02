@@ -6,15 +6,15 @@ import aoc.aoc2022.days.*;
 import aoc.aoc2022.days.Day5.Move;
 import aoc.aoc2022.days.Day5.MoveCreator;
 import aoc.helpers.Day;
-import aoc.helpers.Pair;
 
 import static aoc.helpers.Readers.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Predicate;
+
+import io.vavr.Tuple2;
 
 public class OtherTest {
 
@@ -35,13 +35,13 @@ public class OtherTest {
         List<String> ls = List.of();
         Predicate<String> p = s -> s.strip().equals("");
         // not present - mandatory : empty
-        Optional<Pair<List<String>, List<String>>> res1 = splitUntil(p, true, false).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> res1 = splitUntil(p, true, false).apply(ls);
         assertTrue(res1.isEmpty());
         // not present - not mandatory : ([], [])
-        Optional<Pair<List<String>, List<String>>> res2 = splitUntil(p, false, false).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> res2 = splitUntil(p, false, false).apply(ls);
         assertTrue(res2.isPresent());
-        assertEquals(res2.get().fst(), List.of());
-        assertEquals(res2.get().snd(), List.of());
+        assertEquals(res2.get()._1(), List.of());
+        assertEquals(res2.get()._2(), List.of());
     }
 
     @Test
@@ -52,39 +52,39 @@ public class OtherTest {
         Predicate<String> pc = s -> s.strip().equals("ccc");
         Predicate<String> pd = s -> s.strip().equals("ddd");
         // not present - mandatory : empty
-        Optional<Pair<List<String>, List<String>>> resd1 = splitUntil(pd, true, false).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> resd1 = splitUntil(pd, true, false).apply(ls);
         assertTrue(resd1.isEmpty());
         // not present - not mandatory : (whole list, [])
-        Optional<Pair<List<String>, List<String>>> resd2 = splitUntil(pd, false, false).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> resd2 = splitUntil(pd, false, false).apply(ls);
         assertTrue(resd2.isPresent());
-        assertEquals(resd2.get().fst(), List.of("aaa", "bbb", "ccc"));
-        assertEquals(resd2.get().snd(), List.of());
+        assertEquals(resd2.get()._1(), List.of("aaa", "bbb", "ccc"));
+        assertEquals(resd2.get()._2(), List.of());
         // present - mandatory - do not keep : (before without, after)
-        Optional<Pair<List<String>, List<String>>> resa1 = splitUntil(pa, true, false).apply(ls);
-        Optional<Pair<List<String>, List<String>>> resb1 = splitUntil(pb, true, false).apply(ls);
-        Optional<Pair<List<String>, List<String>>> resc1 = splitUntil(pc, true, false).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> resa1 = splitUntil(pa, true, false).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> resb1 = splitUntil(pb, true, false).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> resc1 = splitUntil(pc, true, false).apply(ls);
         assertTrue(resa1.isPresent());
-        assertEquals(resa1.get().fst(), List.of());
-        assertEquals(resa1.get().snd(), List.of("bbb", "ccc"));
+        assertEquals(resa1.get()._1(), List.of());
+        assertEquals(resa1.get()._2(), List.of("bbb", "ccc"));
         assertTrue(resb1.isPresent());
-        assertEquals(resb1.get().fst(), List.of("aaa"));
-        assertEquals(resb1.get().snd(), List.of("ccc"));
+        assertEquals(resb1.get()._1(), List.of("aaa"));
+        assertEquals(resb1.get()._2(), List.of("ccc"));
         assertTrue(resc1.isPresent());
-        assertEquals(resc1.get().fst(), List.of("aaa", "bbb"));
-        assertEquals(resc1.get().snd(), List.of());
+        assertEquals(resc1.get()._1(), List.of("aaa", "bbb"));
+        assertEquals(resc1.get()._2(), List.of());
         // present - mandatory -- keep
-        Optional<Pair<List<String>, List<String>>> resa2 = splitUntil(pa, true, true).apply(ls);
-        Optional<Pair<List<String>, List<String>>> resb2 = splitUntil(pb, true, true).apply(ls);
-        Optional<Pair<List<String>, List<String>>> resc2 = splitUntil(pc, true, true).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> resa2 = splitUntil(pa, true, true).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> resb2 = splitUntil(pb, true, true).apply(ls);
+        Optional<Tuple2<List<String>, List<String>>> resc2 = splitUntil(pc, true, true).apply(ls);
         assertTrue(resa2.isPresent());
-        assertEquals(resa2.get().fst(), List.of("aaa"));
-        assertEquals(resa2.get().snd(), List.of("bbb", "ccc"));
+        assertEquals(resa2.get()._1(), List.of("aaa"));
+        assertEquals(resa2.get()._2(), List.of("bbb", "ccc"));
         assertTrue(resb2.isPresent());
-        assertEquals(resb2.get().fst(), List.of("aaa", "bbb"));
-        assertEquals(resb2.get().snd(), List.of("ccc"));
+        assertEquals(resb2.get()._1(), List.of("aaa", "bbb"));
+        assertEquals(resb2.get()._2(), List.of("ccc"));
         assertTrue(resc2.isPresent());
-        assertEquals(resc2.get().fst(), List.of("aaa", "bbb", "ccc"));
-        assertEquals(resc2.get().snd(), List.of());
+        assertEquals(resc2.get()._1(), List.of("aaa", "bbb", "ccc"));
+        assertEquals(resc2.get()._2(), List.of());
     }
 
     @Test
@@ -97,34 +97,6 @@ public class OtherTest {
         Optional<Integer> res = integer.apply("123");
         assertTrue(res.isPresent());
         assertEquals(123, (int) res.get());
-    }
-
-    @Test
-    public void map1Pair() {
-        int n = 456;
-        Pair<String, Integer> p = Pair.of("double", n);
-        BiFunction<String, Integer, Integer> f = (s, i) -> switch (s) {
-            case "double" -> i * 2;
-            case "add1" -> i + 1;
-            default -> 0;
-        };
-        Pair<Integer, Integer> p2 = p.map1(f);
-        assertEquals(n * 2, (int) p2.fst());
-        assertEquals(p.snd(), p2.snd());
-    }
-
-    @Test
-    public void map2Pair() {
-        int n = 456;
-        Pair<String, Integer> p = Pair.of("add1", n);
-        BiFunction<String, Integer, Integer> f = (s, i) -> switch (s) {
-            case "double" -> i * 2;
-            case "add1" -> i + 1;
-            default -> 0;
-        };
-        Pair<String, Integer> p2 = p.map2(f);
-        assertEquals(p.fst(), p2.fst());
-        assertEquals(n + 1, (int) p2.snd());
     }
 
     @Test

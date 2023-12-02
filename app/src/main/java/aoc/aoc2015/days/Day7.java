@@ -7,8 +7,10 @@ import java.util.Optional;
 import aoc.helpers.Day;
 import aoc.helpers.LineReader;
 import aoc.helpers.ListCreator;
-import aoc.helpers.Pair;
 import static aoc.helpers.Readers.*;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 
 public class Day7 {
 
@@ -291,15 +293,15 @@ public class Day7 {
 
     public static final LineReader<Instruction> readInstruction = splitN(" ", createInstruction);
 
-    public static final LineReader<Pair<Instruction, Wire>> readDefinition = split(" -> ",
-            readInstruction, readWire, Pair::of);
+    public static final LineReader<Tuple2<Instruction, Wire>> readDefinition = split(" -> ",
+            readInstruction, readWire, Tuple::of);
 
     public static final Day day7a = ls -> {
         Context c = new Context();
         ls.stream()
                 .map(readDefinition)
                 .flatMap(Optional::stream)
-                .forEach(line -> c.set(line.snd(), line.fst()));
+                .forEach(line -> c.set(line._2(), line._1()));
         return c.value(new Wire("a")).map(Object::toString).orElse("not found");
     };
 
@@ -308,7 +310,7 @@ public class Day7 {
         ls.stream()
                 .map(readDefinition)
                 .flatMap(Optional::stream)
-                .forEach(line -> c.set(line.snd(), line.fst()));
+                .forEach(line -> c.set(line._2(), line._1()));
         Optional<Integer> value = c.value(new Wire("a"));
         if (value.isPresent()) {
             c.reset();

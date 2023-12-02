@@ -10,18 +10,20 @@ import java.util.Set;
 import aoc.aoc2022.days.*;
 import aoc.helpers.AoCApp;
 import aoc.helpers.Day;
-import aoc.helpers.Pair;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 
 public class App implements AoCApp {
-    private final Map<String, Pair<String, Day>> days = Map.of(
-            "1a", Pair.of("/aoc2022/input1.txt", Day1.day1a),
-            "1b", Pair.of("/aoc2022/input1.txt", Day1.day1b),
-            "2a", Pair.of("/aoc2022/input2.txt", Day2.day2a),
-            "2b", Pair.of("/aoc2022/input2.txt", Day2.day2b),
-            "3a", Pair.of("/aoc2022/input3.txt", Day3.day3a),
-            "3b", Pair.of("/aoc2022/input3.txt", Day3.day3b),
-            "4a", Pair.of("/aoc2022/input4.txt", Day4.day4a),
-            "4b", Pair.of("/aoc2022/input4.txt", Day4.day4b));
+    private final Map<String, Tuple2<String, Day>> days = Map.of(
+            "1a", Tuple.of("/aoc2022/input1.txt", Day1.day1a),
+            "1b", Tuple.of("/aoc2022/input1.txt", Day1.day1b),
+            "2a", Tuple.of("/aoc2022/input2.txt", Day2.day2a),
+            "2b", Tuple.of("/aoc2022/input2.txt", Day2.day2b),
+            "3a", Tuple.of("/aoc2022/input3.txt", Day3.day3a),
+            "3b", Tuple.of("/aoc2022/input3.txt", Day3.day3b),
+            "4a", Tuple.of("/aoc2022/input4.txt", Day4.day4a),
+            "4b", Tuple.of("/aoc2022/input4.txt", Day4.day4b));
 
     @Override
     public Set<String> days() {
@@ -30,12 +32,12 @@ public class App implements AoCApp {
 
     @Override
     public Optional<String> file(String day) {
-        return Optional.ofNullable(days.get(day).fst());
+        return Optional.ofNullable(days.get(day)._1());
     }
 
     @Override
     public Optional<Day> day(String day) {
-        return Optional.ofNullable(days.get(day).snd());
+        return Optional.ofNullable(days.get(day)._2());
     }
 
 }

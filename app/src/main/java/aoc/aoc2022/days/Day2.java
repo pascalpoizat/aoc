@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import aoc.helpers.Day;
 import aoc.helpers.LineReader;
-import aoc.helpers.Pair;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 
 public class Day2 {
 
@@ -88,19 +90,23 @@ public class Day2 {
         return playToLose(adversary);
     }
 
+    private static Tuple2<Play, Play> chooseAsTuple(Tuple2<Play,Result> t) {
+        return Tuple.of(t._1(), choose(t._1(), t._2()));
+    }
+
     public static int score(Play adversary, Play me) {
         return me.value() + play(adversary, me).value();
     }
 
-    public static int score(Pair<Play, Play> play) {
-        return score(play.fst(), play.snd());
+    public static int score(Tuple2<Play, Play> play) {
+        return score(play._1(), play._2());
     }
 
-    public static final LineReader<Pair<Play, Play>> split1 = split(" ", readPlay,
-            readPlay, Pair::new);
+    public static final LineReader<Tuple2<Play, Play>> split1 = split(" ", readPlay,
+            readPlay, Tuple::of);
 
-    public static final LineReader<Pair<Play, Play>> split2 = l -> split(" ", readPlay,
-            readResult, Pair::new).apply(l).map(p -> p.map2(Day2::choose));
+    public static final LineReader<Tuple2<Play, Play>> split2 = l -> split(" ", readPlay,
+            readResult, Tuple::of).apply(l).map(Day2::chooseAsTuple);
 
     public static final Day day2a = ls -> {
         int score = ls.stream()

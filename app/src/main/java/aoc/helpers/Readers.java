@@ -10,6 +10,9 @@ import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
+
 public final class Readers {
 
     private Readers() {
@@ -46,18 +49,26 @@ public final class Readers {
     };
 
     /**
-     * Split line reader (version that splits in 2)
-     * V ::= <T>:t REGEX <U>:u {f(t,u)}
+     * Split line reader (version that splits in 2).
+     * V ::= t:T REGEX u:U {f(t,u)}.
+     * 
+     * @param <T> type of the object read from the first part of the line.
+     * @param <U> type of the object read from the second part of the line.
+     * @param <V> type of the object for the line.
+     * @param regex separator used to split the lines in two.
+     * @param readT {@link LineReader} used to read the first part.
+     * @param readU {@link LineReader} used to read the second part.
+     * @param f function to get the object for the line from the ones for the two parts.
      */
-    public static <T, U, V> LineReader<V> split(String regex, LineReader<T> x,
-                                                LineReader<U> y, BiFunction<T, U, V> f) {
+    public static <T, U, V> LineReader<V> split(String regex, LineReader<T> readT,
+            LineReader<U> readU, BiFunction<T, U, V> f) {
         return l -> {
-            if (regex == null || x == null || y == null || f == null || l == null)
+            if (regex == null || readT == null || readU == null || f == null || l == null)
                 return Optional.empty();
             String[] parts = l.split(regex);
             if (parts.length == 2) {
-                Optional<T> t = x.apply(parts[0]);
-                Optional<U> u = y.apply(parts[1]);
+                Optional<T> t = readT.apply(parts[0]);
+                Optional<U> u = readU.apply(parts[1]);
                 if (t.isPresent() && u.isPresent()) {
                     return Optional.ofNullable(f.apply(t.get(), u.get()));
                 }
@@ -124,7 +135,7 @@ public final class Readers {
         };
     }
 
-    public static FileReader<Pair<List<String>, List<String>>> splitUntil(Predicate<String> p, boolean mandatory,
+    public static FileReader<Tuple2<List<String>, List<String>>> splitUntil(Predicate<String> p, boolean mandatory,
                                                                           boolean keep) {
         return ls -> {
             if (p == null || ls == null)
@@ -152,7 +163,7 @@ public final class Readers {
             if (mandatory && !found) {
                 return Optional.empty();
             } else {
-                return Optional.of(Pair.of(before, after));
+                return Optional.of(Tuple.of(before, after));
             }
         };
     }

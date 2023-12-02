@@ -9,7 +9,9 @@ import java.util.function.Predicate;
 
 import aoc.helpers.Day;
 import aoc.helpers.LineReader;
-import aoc.helpers.Pair;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 
 public class Day4 {
 
@@ -47,13 +49,13 @@ public class Day4 {
     public static final LineReader<Range> rangeReader = split("-", integer,
             integer, Day4.Range::new);
 
-    public static final LineReader<Pair<Range, Range>> reader = split(",", rangeReader, rangeReader, Pair::new);
+    public static final LineReader<Tuple2<Range, Range>> reader = split(",", rangeReader, rangeReader, Tuple::of);
 
-    public static final Predicate<Pair<Range,Range>> aCoversB = p -> p.fst().covers(p.snd());
-    public static final Predicate<Pair<Range,Range>> bCoversA = p -> p.snd().covers(p.fst());
-    public static final Predicate<Pair<Range,Range>> overlaps = p -> p.fst().overlaps(p.snd());
+    public static final Predicate<Tuple2<Range,Range>> aCoversB = p -> p._1().covers(p._2());
+    public static final Predicate<Tuple2<Range,Range>> bCoversA = p -> p._2().covers(p._1());
+    public static final Predicate<Tuple2<Range,Range>> overlaps = p -> p._1().overlaps(p._2());
 
-    public static final Function<Predicate<Pair<Range,Range>>,Day> day = p -> ls -> {
+    public static final Function<Predicate<Tuple2<Range,Range>>,Day> day = p -> ls -> {
         final long count = ls.stream()
                 .map(reader)
                 .flatMap(Optional::stream)
