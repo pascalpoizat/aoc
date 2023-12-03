@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import aoc.aoc2022.App;
+import aoc.aoc2023.App;
 
 public interface Day extends Function<String, Optional<String>> {
     String compute(List<String> lines);

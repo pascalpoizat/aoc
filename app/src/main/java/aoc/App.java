@@ -17,7 +17,8 @@ public class App {
 
     public static final Map<String, AoCApp> apps = Map.of(
             "2015", new aoc.aoc2015.App(),
-            "2022", new aoc.aoc2022.App());
+            "2022", new aoc.aoc2022.App(),
+            "2023", new aoc.aoc2023.App());
 
     public static void main(String[] args) {
         if (args.length >= 2) {
