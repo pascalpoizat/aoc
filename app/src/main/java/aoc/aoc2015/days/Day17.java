@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static aoc.helpers.ListGenerator.supplier;
 import static aoc.helpers.Maths.zip;
-import static aoc.helpers.Readers.integer;
+import static aoc.helpers.Readers.integerReader;
 
 public class Day17 {
 
@@ -25,8 +25,8 @@ public class Day17 {
         return selection.stream().filter(Tuple2::_2).map(Tuple2::_1).reduce(0, Integer::sum) == quantity;
     }
 
-    public static Day day17a = ls -> {
-        List<Integer> containers = ls.stream().map(integer).flatMap(Optional::stream).toList();
+    public static final Day day17a = ls -> {
+        List<Integer> containers = ls.stream().map(integerReader).flatMap(Optional::stream).toList();
         Supplier<Optional<List<Integer>>> s = supplier.apply(containers.size(), 1);
         long nb = Stream.generate(s)
                 .takeWhile(Optional::isPresent)
@@ -37,8 +37,8 @@ public class Day17 {
         return String.format("%d", nb);
     };
 
-    public static Day day17b = ls -> {
-        List<Integer> containers = ls.stream().map(integer).flatMap(Optional::stream).toList();
+    public static final Day day17b = ls -> {
+        List<Integer> containers = ls.stream().map(integerReader).flatMap(Optional::stream).toList();
         Supplier<Optional<List<Integer>>> s = supplier.apply(containers.size(), 1);
         List<List<Boolean>> selections = Stream.generate(s)
                 .takeWhile(Optional::isPresent)

@@ -1,6 +1,6 @@
 package aoc.aoc2022.days;
 
-import static aoc.helpers.Readers.split;
+import static aoc.helpers.Readers.split2Reader;
 
 import java.util.Optional;
 
@@ -102,10 +102,10 @@ public class Day2 {
         return score(play._1(), play._2());
     }
 
-    public static final LineReader<Tuple2<Play, Play>> split1 = split(" ", readPlay,
+    public static final LineReader<Tuple2<Play, Play>> split1 = split2Reader(" ", readPlay,
             readPlay, Tuple::of);
 
-    public static final LineReader<Tuple2<Play, Play>> split2 = l -> split(" ", readPlay,
+    public static final LineReader<Tuple2<Play, Play>> split2 = l -> split2Reader(" ", readPlay,
             readResult, Tuple::of).apply(l).map(Day2::chooseAsTuple);
 
     public static final Day day2a = ls -> {

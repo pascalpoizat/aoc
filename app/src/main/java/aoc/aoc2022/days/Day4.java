@@ -1,7 +1,7 @@
 package aoc.aoc2022.days;
 
-import static aoc.helpers.Readers.integer;
-import static aoc.helpers.Readers.split;
+import static aoc.helpers.Readers.integerReader;
+import static aoc.helpers.Readers.split2Reader;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -46,10 +46,10 @@ public class Day4 {
         }
     }
 
-    public static final LineReader<Range> rangeReader = split("-", integer,
-            integer, Day4.Range::new);
+    public static final LineReader<Range> rangeReader = split2Reader("-", integerReader,
+            integerReader, Day4.Range::new);
 
-    public static final LineReader<Tuple2<Range, Range>> reader = split(",", rangeReader, rangeReader, Tuple::of);
+    public static final LineReader<Tuple2<Range, Range>> reader = split2Reader(",", rangeReader, rangeReader, Tuple::of);
 
     public static final Predicate<Tuple2<Range,Range>> aCoversB = p -> p._1().covers(p._2());
     public static final Predicate<Tuple2<Range,Range>> bCoversA = p -> p._2().covers(p._1());

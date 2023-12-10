@@ -4,7 +4,7 @@ import aoc.helpers.Day;
 import aoc.helpers.JsonObjectMapper;
 import aoc.helpers.ListCreator;
 
-import static aoc.helpers.Readers.integer;
+import static aoc.helpers.Readers.integerReader;
 import static aoc.helpers.Readers.findAll;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +27,7 @@ public class Day12 {
         if (ls == null)
             return Optional.empty();
         return Optional.of(ls.stream()
-                .map(integer)
+                .map(integerReader)
                 .flatMap(Optional::stream)
                 .reduce(0, Integer::sum));
     };

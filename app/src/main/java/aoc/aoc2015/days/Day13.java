@@ -57,10 +57,10 @@ public class Day13 {
 
     public static final ListCreator<Tuple4<String, String, Integer, String>> preferenceCreator = ls -> {
         if (ls != null && ls.size() == 4) {
-            Optional<String> person = id.apply(ls.get(0));
-            Optional<String> action = id.apply(ls.get(1));
-            Optional<Integer> value = integer.apply(ls.get(2));
-            Optional<String> other = id.apply(ls.get(3));
+            Optional<String> person = stringReader.apply(ls.get(0));
+            Optional<String> action = stringReader.apply(ls.get(1));
+            Optional<Integer> value = integerReader.apply(ls.get(2));
+            Optional<String> other = stringReader.apply(ls.get(3));
             if (person.isPresent() && action.isPresent() && value.isPresent() && other.isPresent()) {
                 return Optional.of(Tuple.of(person.get(), action.get(), value.get(), other.get()));
             }

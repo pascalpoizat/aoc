@@ -14,6 +14,8 @@ import io.vavr.Tuple2;
 
 public class Day7 {
 
+    public static final String NOTFOUND = "not found";
+
     // Does not support cycles in definitions
     // e.g., x -> x or x AND y -> z + z -> x
 
@@ -167,10 +169,10 @@ public class Day7 {
     }
 
     public static class Wire implements Value, Comparable<Wire> {
-        private final String wire;
+        private final String wireName;
 
         public Wire(String wire) {
-            this.wire = wire;
+            this.wireName = wire;
         }
 
         @Override
@@ -182,7 +184,7 @@ public class Day7 {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((wire == null) ? 0 : wire.hashCode());
+            result = prime * result + ((wireName == null) ? 0 : wireName.hashCode());
             return result;
         }
 
@@ -195,25 +197,26 @@ public class Day7 {
             if (getClass() != obj.getClass())
                 return false;
             Wire other = (Wire) obj;
-            if (wire == null) {
-                return other.wire == null;
-            } else return wire.equals(other.wire);
+            if (wireName == null) {
+                return other.wireName == null;
+            } else
+                return wireName.equals(other.wireName);
         }
 
         @Override
         public String toString() {
-            return wire;
+            return wireName;
         }
 
         @Override
         public int compareTo(Wire w) {
-            return wire.compareTo(w.wire);
+            return wireName.compareTo(w.wireName);
         }
     }
 
-    public static final LineReader<Number> readNumber = l -> integer.apply(l).map(Number::new);
+    public static final LineReader<Number> readNumber = l -> integerReader.apply(l).map(Number::new);
 
-    public static final LineReader<Wire> readWire = l -> id.apply(l).map(Wire::new);
+    public static final LineReader<Wire> readWire = l -> stringReader.apply(l).map(Wire::new);
 
     public static final LineReader<Value> createValue = l -> {
         Optional<Value> rtr = readNumber.apply(l).map(Value.class::cast);
@@ -264,7 +267,7 @@ public class Day7 {
     };
 
     public static final ListCreator<Instruction> createNot = ls -> {
-        if(ls.get(0).strip().equals("NOT")) {
+        if (ls.get(0).strip().equals("NOT")) {
             Optional<Value> instr = createValue.apply(ls.get(1));
             if (instr.isPresent()) {
                 return Optional.of(new INot(instr.get()));
@@ -291,9 +294,9 @@ public class Day7 {
         default -> Optional.empty();
     };
 
-    public static final LineReader<Instruction> readInstruction = splitN(" ", createInstruction);
+    public static final LineReader<Instruction> readInstruction = splitNReader(" ", createInstruction);
 
-    public static final LineReader<Tuple2<Instruction, Wire>> readDefinition = split(" -> ",
+    public static final LineReader<Tuple2<Instruction, Wire>> readDefinition = split2Reader(" -> ",
             readInstruction, readWire, Tuple::of);
 
     public static final Day day7a = ls -> {
@@ -302,7 +305,7 @@ public class Day7 {
                 .map(readDefinition)
                 .flatMap(Optional::stream)
                 .forEach(line -> c.set(line._2(), line._1()));
-        return c.value(new Wire("a")).map(Object::toString).orElse("not found");
+        return c.value(new Wire("a")).map(Object::toString).orElse(NOTFOUND);
     };
 
     public static final Day day7b = ls -> {
@@ -315,9 +318,9 @@ public class Day7 {
         if (value.isPresent()) {
             c.reset();
             c.set(new Wire("b"), new Number(value.get()));
-            return c.value(new Wire("a")).map(Object::toString).orElse("not found");
+            return c.value(new Wire("a")).map(Object::toString).orElse(NOTFOUND);
         } else {
-            return "not found";
+            return NOTFOUND;
         }
     };
 

@@ -38,9 +38,9 @@ public class Day14 {
 
     public static final ListCreator<Reindeer> reindeerCreator = ls -> {
         if (ls != null && ls.size() == 3) {
-            Optional<Integer> speed = integer.apply(ls.get(0));
-            Optional<Integer> flyTime = integer.apply(ls.get(1));
-            Optional<Integer> restTime = integer.apply(ls.get(2));
+            Optional<Integer> speed = integerReader.apply(ls.get(0));
+            Optional<Integer> flyTime = integerReader.apply(ls.get(1));
+            Optional<Integer> restTime = integerReader.apply(ls.get(2));
             if (speed.isPresent() && flyTime.isPresent() && restTime.isPresent()) {
                 return Optional.of(new Reindeer(speed.get(), flyTime.get(), restTime.get()));
             }

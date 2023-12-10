@@ -50,8 +50,8 @@ public class Day6 {
 
     public static final ListCreator<Coordinate> readCoordinate = ls -> {
         if (ls.size() == 2) {
-            Optional<Integer> x = integer.apply(ls.get(0));
-            Optional<Integer> y = integer.apply(ls.get(1));
+            Optional<Integer> x = integerReader.apply(ls.get(0));
+            Optional<Integer> y = integerReader.apply(ls.get(1));
             if (x.isPresent() && y.isPresent()) {
                 return Optional.of(Coordinate.of(x.get(), y.get()));
             }
@@ -84,8 +84,6 @@ public class Day6 {
             case TURNON -> table[x][y] = true;
             case TURNOFF -> table[x][y] = false;
             case TOGGLE -> table[x][y] = !table[x][y];
-            default -> {
-            }
         }
     }
 
@@ -94,8 +92,6 @@ public class Day6 {
             case TURNON -> table2[x][y] = table2[x][y] + 1;
             case TURNOFF -> table2[x][y] = (table2[x][y] <= 1) ? 0 : table2[x][y] - 1;
             case TOGGLE -> table2[x][y] = table2[x][y] + 2;
-            default -> {
-            }
         }
     }
 

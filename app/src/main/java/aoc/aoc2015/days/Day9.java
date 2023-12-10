@@ -56,9 +56,9 @@ public class Day9 {
 
     public static final ListCreator<Tuple3<String, String, Integer>> edgeCreator = ls -> {
         if (ls != null && ls.size() == 3) {
-            Optional<String> from = id.apply(ls.get(0));
-            Optional<String> to = id.apply(ls.get(1));
-            Optional<Integer> dist = integer.apply(ls.get(2));
+            Optional<String> from = stringReader.apply(ls.get(0));
+            Optional<String> to = stringReader.apply(ls.get(1));
+            Optional<Integer> dist = integerReader.apply(ls.get(2));
             if (from.isPresent() && to.isPresent() && dist.isPresent()) {
                 return Optional.of(Tuple.of(from.get(), to.get(), dist.get()));
             }

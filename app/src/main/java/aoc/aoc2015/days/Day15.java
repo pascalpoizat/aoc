@@ -46,14 +46,14 @@ public class Day15 {
         return doses.stream().map(t -> t._1().calories * t._2()).reduce(0, Integer::sum);
     }
 
-    public static ListCreator<Ingredient> ingredientCreator = ls -> {
+    public static final ListCreator<Ingredient> ingredientCreator = ls -> {
         if (ls != null && ls.size() == 6) {
-            Optional<String> name = id.apply(ls.get(0));
-            Optional<Integer> capacity = integer.apply(ls.get(1));
-            Optional<Integer> durability = integer.apply(ls.get(2));
-            Optional<Integer> flavor = integer.apply(ls.get(3));
-            Optional<Integer> texture = integer.apply(ls.get(4));
-            Optional<Integer> calories = integer.apply(ls.get(5));
+            Optional<String> name = stringReader.apply(ls.get(0));
+            Optional<Integer> capacity = integerReader.apply(ls.get(1));
+            Optional<Integer> durability = integerReader.apply(ls.get(2));
+            Optional<Integer> flavor = integerReader.apply(ls.get(3));
+            Optional<Integer> texture = integerReader.apply(ls.get(4));
+            Optional<Integer> calories = integerReader.apply(ls.get(5));
             if (name.isPresent() && capacity.isPresent() && durability.isPresent() && flavor.isPresent() && texture.isPresent() && calories.isPresent()) {
                 return Optional.of(new Ingredient(name.get(), capacity.get(), durability.get(), flavor.get(), texture.get(), calories.get()));
             }
@@ -61,7 +61,7 @@ public class Day15 {
         return Optional.empty();
     };
 
-    public static LineReader<Ingredient> ingredientReader = regex("([^:]+): capacity (-?[\\d]+), durability (-?[\\d]+), flavor (-?[\\d]+), texture (-?[\\d]+), calories (-?[\\d]+)", ingredientCreator);
+    public static final LineReader<Ingredient> ingredientReader = regex("([^:]+): capacity (-?[\\d]+), durability (-?[\\d]+), flavor (-?[\\d]+), texture (-?[\\d]+), calories (-?[\\d]+)", ingredientCreator);
 
     public static final Day day15a = ls -> {
         List<Ingredient> ingredients = ls.stream().map(ingredientReader).flatMap(Optional::stream).toList();

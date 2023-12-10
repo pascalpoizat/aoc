@@ -1,6 +1,6 @@
 package aoc.aoc2022.days;
 
-import static aoc.helpers.Readers.integer;
+import static aoc.helpers.Readers.integerReader;
 import static aoc.helpers.Readers.regex;
 
 import java.util.ArrayList;
@@ -36,9 +36,9 @@ public class Day5 {
         @Override
         public Optional<Move> fromList(List<String> ls) {
             if (ls != null && ls.size() == 3) {
-                Optional<Integer> q = integer.apply(ls.get(0));
-                Optional<Integer> f = integer.apply(ls.get(1));
-                Optional<Integer> t = integer.apply(ls.get(2));
+                Optional<Integer> q = integerReader.apply(ls.get(0));
+                Optional<Integer> f = integerReader.apply(ls.get(1));
+                Optional<Integer> t = integerReader.apply(ls.get(2));
                 if (q.isPresent() && f.isPresent() && t.isPresent()) {
                     return Optional.of(new Move(q.get(), f.get(), t.get()));
                 }

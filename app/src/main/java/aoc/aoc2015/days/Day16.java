@@ -66,10 +66,10 @@ public class Day16 {
             "perfumes", 1
     );
 
-    public static ListCreator<Map.Entry<String, Integer>> entryCreator = ls -> {
+    public static final ListCreator<Map.Entry<String, Integer>> entryCreator = ls -> {
         if (ls != null && ls.size() == 2) {
-            Optional<String> attribute = id.apply(ls.get(0));
-            Optional<Integer> value = integer.apply(ls.get(1));
+            Optional<String> attribute = stringReader.apply(ls.get(0));
+            Optional<Integer> value = integerReader.apply(ls.get(1));
             if (attribute.isPresent() && value.isPresent()) {
                 return Optional.of(new AbstractMap.SimpleEntry<>(attribute.get(), value.get()));
             }
@@ -77,7 +77,7 @@ public class Day16 {
         return Optional.empty();
     };
 
-    public static ListCreator<Map<String, Integer>> attributesCreator = ls -> {
+    public static final ListCreator<Map<String, Integer>> attributesCreator = ls -> {
         if (ls != null) {
             Map<String, Integer> attributes = new HashMap<>();
             ls.stream()
@@ -89,10 +89,10 @@ public class Day16 {
         return Optional.empty();
     };
 
-    public static ListCreator<Auntie> auntieCreator = ls -> {
+    public static final ListCreator<Auntie> auntieCreator = ls -> {
         if (ls != null && ls.size() == 2) {
-            Optional<Integer> id = integer.apply(ls.get(0));
-            Optional<Map<String, Integer>> attributes = splitN(", ", attributesCreator).apply(ls.get(1));
+            Optional<Integer> id = integerReader.apply(ls.get(0));
+            Optional<Map<String, Integer>> attributes = splitNReader(", ", attributesCreator).apply(ls.get(1));
             if (id.isPresent() && attributes.isPresent()) {
                 return Optional.of(new Auntie(id.get(), attributes.get()));
             }
@@ -100,7 +100,7 @@ public class Day16 {
         return Optional.empty();
     };
 
-    public static LineReader<Auntie> auntieReader = regex("Sue ([\\d]+): (.+)", auntieCreator);
+    public static final LineReader<Auntie> auntieReader = regex("Sue ([\\d]+): (.+)", auntieCreator);
 
     public static final Function<Predicate<Auntie>, Day> day = p -> ls -> {
         return ls.stream()

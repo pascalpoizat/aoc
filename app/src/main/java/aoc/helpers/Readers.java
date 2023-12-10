@@ -31,16 +31,14 @@ public final class Readers {
     }
 
     /**
-     * Id reader.
-     * ID
+     * String reader.
      */
-    public static final LineReader<String> id = Optional::ofNullable;
+    public static final LineReader<String> stringReader = Optional::ofNullable;
 
     /**
      * Integer reader.
-     * INT
      */
-    public static final LineReader<Integer> integer = l -> {
+    public static final LineReader<Integer> integerReader = l -> {
         try {
             return Optional.of(Integer.parseInt(l));
         } catch (Exception x) {
@@ -50,17 +48,18 @@ public final class Readers {
 
     /**
      * Split line reader (version that splits in 2).
-     * V ::= t:T REGEX u:U {f(t,u)}.
+     * t:T REGEX u:T -> f(t,u):V.
      * 
-     * @param <T> type of the object read from the first part of the line.
-     * @param <U> type of the object read from the second part of the line.
-     * @param <V> type of the object for the line.
+     * @param <T>   type of the object read from the first part of the line.
+     * @param <U>   type of the object read from the second part of the line.
+     * @param <V>   type of the object for the line.
      * @param regex separator used to split the lines in two.
      * @param readT {@link LineReader} used to read the first part.
      * @param readU {@link LineReader} used to read the second part.
-     * @param f function to get the object for the line from the ones for the two parts.
+     * @param f     function to get the object for the line from the ones for the
+     *              two parts.
      */
-    public static <T, U, V> LineReader<V> split(String regex, LineReader<T> readT,
+    public static <T, U, V> LineReader<V> split2Reader(String regex, LineReader<T> readT,
             LineReader<U> readU, BiFunction<T, U, V> f) {
         return l -> {
             if (regex == null || readT == null || readU == null || f == null || l == null)
@@ -78,10 +77,10 @@ public final class Readers {
     }
 
     /**
-     * Split line reader (version that splits in n)
-     * T ::= t1 REGEX t2 REGEX ... REGEX tn {f(t1,t2,...,tn)}
+     * Split line reader (version that splits in n).
+     * x1 REGEX ... REGEX xn -> f(x1,...,xn):T.
      */
-    public static <T> LineReader<T> splitN(String regex, ListCreator<T> f) {
+    public static <T> LineReader<T> splitNReader(String regex, ListCreator<T> f) {
         return l -> {
             if (regex == null || f == null || l == null)
                 return Optional.empty();
@@ -90,8 +89,8 @@ public final class Readers {
     }
 
     /**
-     * Regex reader.
-     * V ::= REGEX with groups g1 ... gn in a structure t:T, {f(t)}
+     * Regex reader. Reads from one regex with n groups.
+     * REGEX with groups g1 ... gn -> f(g1,...,gn).
      */
     public static <T> LineReader<T> regex(String regex, ListCreator<T> f) {
         return l -> {
@@ -116,6 +115,10 @@ public final class Readers {
         };
     }
 
+    /**
+     * Regex reader. Finds all occurrences of a regex.
+     * REGEX (instance 1) ... REGEX (instance n) -> f(instance 1, ... instance n).
+     */
     public static <T> LineReader<T> findAll(String regex, ListCreator<T> f) {
         return l -> {
             if (regex == null || regex.equals("") || f == null) {
@@ -125,7 +128,7 @@ public final class Readers {
                 List<String> instances = new ArrayList<>();
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(l);
-                while(matcher.find()) {
+                while (matcher.find()) {
                     instances.add(matcher.group());
                 }
                 return f.fromList(instances);
@@ -136,7 +139,7 @@ public final class Readers {
     }
 
     public static FileReader<Tuple2<List<String>, List<String>>> splitUntil(Predicate<String> p, boolean mandatory,
-                                                                          boolean keep) {
+            boolean keep) {
         return ls -> {
             if (p == null || ls == null)
                 return Optional.empty();
@@ -166,6 +169,20 @@ public final class Readers {
                 return Optional.of(Tuple.of(before, after));
             }
         };
+    }
+
+    public static final LineReader<Integer> indexedPartReader(String prefix, String separator) {
+        return s -> regex(String.format("%s%s([\\d]+)", prefix, separator),
+                ls -> integerReader.apply(ls.get(0)))
+                .apply(s);
+    }
+
+    public static final <T> LineReader<List<T>> listReader(String separator, LineReader<T> reader) {
+        return splitNReader(separator,
+                l -> {
+                    List<T> rtr = l.stream().map(reader).flatMap(Optional::stream).toList();
+                    return rtr.isEmpty() ? Optional.empty() : Optional.of(rtr);
+                });
     }
 
 }

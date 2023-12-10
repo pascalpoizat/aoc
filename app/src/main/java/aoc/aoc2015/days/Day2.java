@@ -58,9 +58,9 @@ public class Day2 {
         @Override
         public Optional<Box> fromList(List<String> ls) {
             if (ls != null && ls.size() == 3) {
-                Optional<Integer> l = integer.apply(ls.get(0));
-                Optional<Integer> w = integer.apply(ls.get(1));
-                Optional<Integer> h = integer.apply(ls.get(2));
+                Optional<Integer> l = integerReader.apply(ls.get(0));
+                Optional<Integer> w = integerReader.apply(ls.get(1));
+                Optional<Integer> h = integerReader.apply(ls.get(2));
                 if (l.isPresent() && w.isPresent() && h.isPresent()) {
                     return Optional.of(new Box(l.get(), w.get(), h.get()));
                 }
