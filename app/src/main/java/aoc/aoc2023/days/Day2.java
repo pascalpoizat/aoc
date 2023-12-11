@@ -33,6 +33,12 @@ public class Day2 {
     }
 
     public static class Game {
+
+        public static final LineReader<Game> reader = split2Reader(":",
+                indexedPartReader("Game", " "),
+                splitNReader(";", revealListCreator),
+                Game::new);
+
         private int number;
         private List<Reveal> reveals;
 
@@ -100,24 +106,21 @@ public class Day2 {
     public static final ListCreator<List<Reveal>> revealListCreator = ls -> Optional
             .of(List.ofAll(ls.stream().map(splitNReader(",", revealCreator)).flatMap(Optional::stream).toList()));
 
-    public static final LineReader<Game> gameReader = split2Reader(":",
-            indexedPartReader("Game", " "),
-            splitNReader(";", revealListCreator),
-            Game::new);
-
     public static final Map<Color, Integer> available = HashMap.of(Color.RED, 12, Color.GREEN, 13, Color.BLUE, 14);
 
-    public static final Day day2a = ls -> String.format("%d",
-            ls.stream().map(gameReader)
-                    .flatMap(Optional::stream)
-                    .filter(g -> g.worksWithAvailableMap(available))
-                    .map(Game::number)
-                    .reduce(0, Integer::sum));
+    public static final Day day2a = ls -> ls.stream()
+            .map(Game.reader)
+            .flatMap(Optional::stream)
+            .filter(g -> g.worksWithAvailableMap(available))
+            .map(Game::number)
+            .reduce(0, Integer::sum)
+            .toString();
 
-    public static final Day day2b = ls -> String.format("%d",
-            ls.stream().map(gameReader)
-                    .flatMap(Optional::stream)
-                    .map(Game::power)
-                    .reduce(0, Integer::sum));
+    public static final Day day2b = ls -> ls.stream()
+            .map(Game.reader)
+            .flatMap(Optional::stream)
+            .map(Game::power)
+            .reduce(0, Integer::sum)
+            .toString();
 
 }

@@ -6,7 +6,6 @@ import aoc.aoc2023.days.*;
 import aoc.aoc2023.days.Day4.Card;
 import aoc.helpers.LineReader;
 
-import static aoc.aoc2023.days.Day4.readCard;
 import static aoc.helpers.Readers.indexedPartReader;
 import static aoc.helpers.Readers.integerReader;
 import static aoc.helpers.Readers.listReader;
@@ -115,7 +114,7 @@ public class OtherTest {
                     listReader(" ", integerReader),
                     listReader(" ", integerReader),
                     Tuple2::new);
-        LineReader<Card> read3 = readCard;
+        LineReader<Card> read3 = Card.reader;
         //
         Optional<Integer> id = read1.apply(prefix);
         assertTrue(id.isPresent());

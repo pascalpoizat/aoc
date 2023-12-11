@@ -23,6 +23,15 @@ public class Day4 {
     }
 
     public static record Card(int id, List<Integer> winNumbers, List<Integer> cardNumbers) {
+
+        public static final LineReader<Card> reader = split2Reader(":",
+                indexedPartReader("Card", "[ ]+"),
+                split2Reader("\\|",
+                        listReader(" ", integerReader),
+                        listReader(" ", integerReader),
+                        Tuple2::new),
+                (id, t) -> new Card(id, t._1(), t._2()));
+
         public long value() {
             return cardNumbers.stream().filter(winNumbers::contains).count();
         }
@@ -36,16 +45,8 @@ public class Day4 {
         }
     }
 
-    public static final LineReader<Card> readCard = split2Reader(":",
-            indexedPartReader("Card", "[ ]+"),
-            split2Reader("\\|",
-                    listReader(" ", integerReader),
-                    listReader(" ", integerReader),
-                    Tuple2::new),
-            (id, t) -> new Card(id, t._1(), t._2()));
-
     public static final Day day4a = ls -> ls.stream()
-            .map(readCard)
+            .map(Card.reader)
             .flatMap(Optional::stream)
             .map(Card::score)
             .reduce(0L, Long::sum)
@@ -56,7 +57,7 @@ public class Day4 {
         Function<Card, Tuple2<Card, Long>> valueMapper = c -> Tuple.of(c, 1L);
         Map<Integer, Tuple2<Card, Long>> cards = new HashMap<>();
         ls.stream()
-                .map(readCard)
+                .map(Card.reader)
                 .flatMap(Optional::stream)
                 .map(c -> new SimpleEntry<>(keyMapper.applyAsInt(c), valueMapper.apply(c)))
                 .forEach(e -> cards.put(e.getKey(), e.getValue()));
