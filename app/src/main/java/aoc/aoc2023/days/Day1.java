@@ -79,7 +79,7 @@ public class Day1 {
             .map(s -> valueFromString(targets, s))
             .filter(Option::isDefined)
             .map(Option::get)
-            .reduce(0, (x,y) -> x+y));
+            .reduce(0, Integer::sum));
     }
 
     public static final Day day1a = computeDay(targets1);

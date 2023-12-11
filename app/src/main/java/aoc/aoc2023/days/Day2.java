@@ -19,7 +19,8 @@ import io.vavr.collection.Map;
 
 public class Day2 {
 
-    private Day2() {}
+    private Day2() {
+    }
 
     public enum Color {
         RED, GREEN, BLUE;
@@ -50,7 +51,7 @@ public class Day2 {
 
         public Map<Color, Integer> minimalWorkingMap() {
             Map<Color, Integer> minimal = HashMap.of(Color.RED, 0, Color.GREEN, 0, Color.BLUE, 0);
-            for(Reveal r : reveals) {
+            for (Reveal r : reveals) {
                 for (Tuple2<Color, Integer> t : r.values) {
                     if (minimal.get(t._1()).get() < t._2()) {
                         minimal = minimal.put(t._1(), t._2());
@@ -99,25 +100,24 @@ public class Day2 {
     public static final ListCreator<List<Reveal>> revealListCreator = ls -> Optional
             .of(List.ofAll(ls.stream().map(splitNReader(",", revealCreator)).flatMap(Optional::stream).toList()));
 
-    public static final LineReader<List<Reveal>> recordReader = splitNReader(";", revealListCreator);
-
-    public static final LineReader<Game> gameReader = split2Reader(":", indexedPartReader("Game", " "), recordReader, Game::new);
+    public static final LineReader<Game> gameReader = split2Reader(":",
+            indexedPartReader("Game", " "),
+            splitNReader(";", revealListCreator),
+            Game::new);
 
     public static final Map<Color, Integer> available = HashMap.of(Color.RED, 12, Color.GREEN, 13, Color.BLUE, 14);
 
-    public static final Day day2a = ls -> String.format("%d", 
-        ls.stream().map(gameReader)
-        .flatMap(Optional::stream)
-        .filter(g -> g.worksWithAvailableMap(available))
-        .map(Game::number)
-        .reduce(0, (x,y) -> x+y)
-    );
+    public static final Day day2a = ls -> String.format("%d",
+            ls.stream().map(gameReader)
+                    .flatMap(Optional::stream)
+                    .filter(g -> g.worksWithAvailableMap(available))
+                    .map(Game::number)
+                    .reduce(0, Integer::sum));
 
     public static final Day day2b = ls -> String.format("%d",
-        ls.stream().map(gameReader)
-        .flatMap(Optional::stream)
-        .map(Game::power)
-        .reduce(0, (x,y) -> x+y)
-    );
+            ls.stream().map(gameReader)
+                    .flatMap(Optional::stream)
+                    .map(Game::power)
+                    .reduce(0, Integer::sum));
 
 }
