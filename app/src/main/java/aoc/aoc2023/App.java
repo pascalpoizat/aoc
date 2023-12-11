@@ -17,7 +17,11 @@ import io.vavr.Tuple2;
 public class App implements AoCApp {
     private final Map<String, Tuple2<String, Day>> days = Map.of(
             "1a", Tuple.of("/aoc2023/input1.txt", Day1.day1a),
-            "1b", Tuple.of("/aoc2023/input1.txt", Day1.day1b)
+            "1b", Tuple.of("/aoc2023/input1.txt", Day1.day1b),
+            "2a", Tuple.of("/aoc2023/input2.txt", Day2.day2a),
+            "2b", Tuple.of("/aoc2023/input2.txt", Day2.day2b),
+            "4a", Tuple.of("/aoc2023/input4.txt", Day4.day4a),
+            "4b", Tuple.of("/aoc2023/input4.txt", Day4.day4b)
     );
             
     @Override

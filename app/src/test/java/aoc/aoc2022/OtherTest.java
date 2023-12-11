@@ -89,12 +89,12 @@ public class OtherTest {
 
     @Test
     public void badReadInteger() {
-        assertTrue(integer.apply("xxx").isEmpty());
+        assertTrue(integerReader.apply("xxx").isEmpty());
     }
 
     @Test
     public void okReadInteger() {
-        Optional<Integer> res = integer.apply("123");
+        Optional<Integer> res = integerReader.apply("123");
         assertTrue(res.isPresent());
         assertEquals(123, (int) res.get());
     }

@@ -3,10 +3,18 @@ package aoc.aoc2023;
 import org.junit.Test;
 
 import aoc.aoc2023.days.*;
+import aoc.aoc2023.days.Day4.Card;
+import aoc.helpers.LineReader;
 
+import static aoc.aoc2023.days.Day4.readCard;
+import static aoc.helpers.Readers.indexedPartReader;
+import static aoc.helpers.Readers.integerReader;
+import static aoc.helpers.Readers.listReader;
+import static aoc.helpers.Readers.split2Reader;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
@@ -92,6 +100,35 @@ public class OtherTest {
         assertEquals(Option.of(77), Day1.valueFromString(Day1.targets2, "yyseven"));
         assertEquals(Option.of(77), Day1.valueFromString(Day1.targets2, "sevenyy"));
         assertEquals(Option.of(77), Day1.valueFromString(Day1.targets2, "seveno"));
+    }
+
+    @Test
+    public void cardFromString() {
+        String prefix = "Card   3";
+        String lists = "  1 21 53 59 44 | 69 82 63 72 16 21 14  1";
+        List<Integer> list1 = List.of(1, 21, 53, 59, 44);
+        List<Integer> list2 = List.of(69, 82, 63, 72, 16, 21, 14, 1);
+        Card expectedCard = new Card(3, list1, list2);
+        //
+        LineReader<Integer> read1 = indexedPartReader("Card", "[ ]+");
+        LineReader<Tuple2<List<Integer>, List<Integer>>> read2 = split2Reader("\\|",
+                    listReader(" ", integerReader),
+                    listReader(" ", integerReader),
+                    Tuple2::new);
+        LineReader<Card> read3 = readCard;
+        //
+        Optional<Integer> id = read1.apply(prefix);
+        assertTrue(id.isPresent());
+        assertEquals((Integer)3, id.get());
+        //
+        Optional<Tuple2<List<Integer>, List<Integer>>> tuple = read2.apply(lists);
+        assertTrue(tuple.isPresent());
+        assertEquals(list1, tuple.get()._1());
+        assertEquals(list2, tuple.get()._2());
+        //
+        Optional<Card> card = read3.apply(prefix + ":" + lists);
+        assertTrue(card.isPresent());
+        assertEquals(expectedCard, card.get());
     }
 
 }

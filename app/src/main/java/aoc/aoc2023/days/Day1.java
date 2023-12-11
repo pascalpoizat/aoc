@@ -10,6 +10,8 @@ import io.vavr.control.Option;
 
 public class Day1 {
 
+    private Day1() {}
+
     public static final List<String> targets1 = List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
     public static final List<String> targets2 = List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
             "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
@@ -66,26 +68,22 @@ public class Day1 {
         Option<Integer> n2 = valueFromEnd(targets, s);
         if (n1.isDefined() && n2.isDefined()) {
             int nombre = n1.get() * 10 + n2.get();
-            System.out.println(String.format("%s -> %d", s, nombre));
             return Option.of(nombre);
         } else {
-            System.out.println(n1.isDefined());
-            System.out.println(n2.isDefined());
-            System.out.println(s);
             return Option.none();
         }
     }
 
-    public static final Day day1a = ls -> String.format("%d", ls.stream()
-            .map(s -> valueFromString(targets1, s))
+    public static final Day computeDay(List<String> targets) {
+        return ls -> String.format("%d", ls.stream()
+            .map(s -> valueFromString(targets, s))
             .filter(Option::isDefined)
             .map(Option::get)
             .reduce(0, (x,y) -> x+y));
+    }
 
-    public static final Day day1b = ls -> String.format("%d", ls.stream()
-            .map(s -> valueFromString(targets2, s))
-            .filter(Option::isDefined)
-            .map(Option::get)
-            .reduce(0, (x,y) -> x+y));
+    public static final Day day1a = computeDay(targets1);
+
+    public static final Day day1b = computeDay(targets2);
 
 }
