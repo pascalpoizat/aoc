@@ -2,11 +2,12 @@ package aoc.aoc2015.days;
 
 import aoc.helpers.Day;
 import aoc.helpers.ListCreator;
+import io.vavr.collection.List;
 
 import static aoc.helpers.Readers.*;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class Day2 {
 
@@ -15,25 +16,11 @@ public class Day2 {
 
     public record Box(int l, int w, int h) {
         public int smallestSideSurface() {
-            int s1 = l * w;
-            int s2 = l * h;
-            int s3 = w * h;
-            if (s1 <= s2 && s1 <= s3)
-                return s1;
-            if (s2 <= s1 && s2 <= s3)
-                return s2;
-            return s3;
+            return List.of(l * w, l * h, w * h).min().getOrElse(0);
         }
 
         public int shortestPerimeter() {
-            int s1 = 2 * l + 2 * w;
-            int s2 = 2 * l + 2 * h;
-            int s3 = 2 * w + 2 * h;
-            if (s1 <= s2 && s1 <= s3)
-                return s1;
-            if (s2 <= s1 && s2 <= s3)
-                return s2;
-            return s3;
+            return List.of(2 * l + 2 * w, 2 * l + 2 * h, 2 * w + 2 * h).min().getOrElse(0);
         }
 
         public int surface() {
@@ -53,38 +40,29 @@ public class Day2 {
         }
     }
 
-    public static class BoxCreator implements ListCreator<Box> {
-
-        @Override
-        public Optional<Box> fromList(List<String> ls) {
-            if (ls != null && ls.size() == 3) {
-                Optional<Integer> l = integerReader.apply(ls.get(0));
-                Optional<Integer> w = integerReader.apply(ls.get(1));
-                Optional<Integer> h = integerReader.apply(ls.get(2));
-                if (l.isPresent() && w.isPresent() && h.isPresent()) {
-                    return Optional.of(new Box(l.get(), w.get(), h.get()));
-                }
+    public static final ListCreator<Box> boxCreator = ls -> {
+        if (ls != null && ls.size() == 3) {
+            Optional<Integer> l = integerReader.apply(ls.get(0));
+            Optional<Integer> w = integerReader.apply(ls.get(1));
+            Optional<Integer> h = integerReader.apply(ls.get(2));
+            if (l.isPresent() && w.isPresent() && h.isPresent()) {
+                return Optional.of(new Box(l.get(), w.get(), h.get()));
             }
-            return Optional.empty();
         }
+        return Optional.empty();
+    };
 
+    public static final Day day2(Function<Box, Integer> f) {
+        return ls -> ls.stream()
+                .map(regex("(\\d+)x(\\d+)x(\\d+)", boxCreator))
+                .flatMap(Optional::stream)
+                .map(f)
+                .reduce(0, Integer::sum)
+                .toString();
     }
 
-    public static final Day day2a = ls -> {
-        int surface = ls.stream()
-                .map(regex("(\\d+)x(\\d+)x(\\d+)", new BoxCreator()))
-                .flatMap(Optional::stream)
-                .map(Box::paperSurface)
-                .reduce(0, Integer::sum);
-        return String.format("%d", surface);
-    };
+    public static final Day day2a = day2(Box::paperSurface);
 
-    public static final Day day2b = ls -> {
-        int size = ls.stream()
-                .map(regex("(\\d+)x(\\d+)x(\\d+)", new BoxCreator()))
-                .flatMap(Optional::stream)
-                .map(Box::ribbonSize)
-                .reduce(0, Integer::sum);
-        return String.format("%d", size);
-    };
+    public static final Day day2b = day2(Box::ribbonSize);
+
 }
